@@ -1,23 +1,27 @@
 import './App.css'
-
+import {useState} from 'react'
 import { ChakraBaseProvider } from '@chakra-ui/react'
 // `@chakra-ui/theme` is a part of the base install with `@chakra-ui/react`
 import chakraTheme from '@chakra-ui/theme'
 
 import UploadPage from './componenets/UploadPage'
 import Forms from './componenets/Forms'
-import SummaryPage from './componenets/summaryPage'
+import Carousels from './componenets/Carousels'
 import LandingPage from './componenets/LandingPage'
+import Navbar from './componenets/navbar'
 
 function App() {
+  const [show, setShow] = useState(true);
 
   return (
     <>
       <ChakraBaseProvider theme={chakraTheme}>
         <div>
-          <LandingPage/>
+          <LandingPage handleShow={setShow} show={show}/>
+          {!show ? <Navbar/> : <></>}
           <UploadPage/>
           <Forms />
+          <Carousels/>
         </div>
       </ChakraBaseProvider>
     </>

@@ -2,10 +2,9 @@ import { useState } from "react";
 // import Spline from '@splinetool/react-spline';
 
 import "./landingPage.css";
-const LandingPage = () => {
-  const [show, setShow] = useState(true);
+const LandingPage = (props) => {
   return (
-    <div className={show ? "landingPage-show" : "landingPage-hide"}>
+    <div className={props.show ? "landingPage-show" : "landingPage-hide"}>
       <div className="half">
         <div className="head-container">
           <h1 className="heading-landing">Q-GENIUS</h1>
@@ -16,7 +15,7 @@ const LandingPage = () => {
           <button
             className="button-landing"
             onClick={() => {
-              setShow(false);
+              props.handleShow(false);
             }}
           >
             Get Started
