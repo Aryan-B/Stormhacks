@@ -143,15 +143,15 @@ const UploadPage = ({
                 })}
               </PreviewList>
             </FilePreviewContainer>
+            <div className="flex flex-row justify-end flex-1/2">
+              <button
+                className="bg-[#8294C4] w-[150px] h-[50px] text-white text-4xl"
+                type="submit"
+              >
+                Next
+              </button>
+            </div>
           </FileUploadContainer>
-          <div className="flex flex-row justify-end mr-12 flex-1/2">
-            <button
-              className="bg-[#8294C4] w-[150px] h-[50px] text-white text-4xl"
-              type="submit"
-            >
-              Next
-            </button>
-          </div>
         </form>
       </div>
     </div>
