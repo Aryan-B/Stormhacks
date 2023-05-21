@@ -1,7 +1,12 @@
-.row {
+.container{
+    position: relative;
+    margin: 100px;
+    border: 2px dotted lightgray;
+    padding: 100px;
+    border-radius: 6px;
     display: flex;
-  }
-  
-.column {
-flex: 50%;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    height: 50vh;
 }

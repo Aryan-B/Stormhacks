@@ -3,7 +3,22 @@ import { Checkbox, CheckboxGroup, FormControl, FormLabel, Stack, Radio, RadioGro
     NumberInputField,
     NumberInputStepper,
     NumberIncrementStepper,
-    NumberDecrementStepper, Box} from '@chakra-ui/react'
+    NumberDecrementStepper, Box
+} from '@chakra-ui/react'
+
+import {
+    FileUploadContainer,
+    FormField,
+    DragDropText,
+    UploadFileBtn,
+    FilePreviewContainer,
+    ImagePreview,
+    PreviewContainer,
+    PreviewList,
+    FileMetaData,
+    RemoveFileIcon,
+    InputLabel,
+} from "./upload.styles";
 
 import './forms.css'
 const Forms = () => {
@@ -13,13 +28,17 @@ const Forms = () => {
   
   
     return (
-        <Box className="m-50 border-solid border-black">
+        <div className="flex flex-col text-center">
+        <h2 className="text-4xl font-bold text-white text-shadow">
+          Set Topics 
+        </h2>
+        <FileUploadContainer >
         <FormControl isRequired >
             <div className="flex">
-                <div className="w-1/2 px-20">
+                <div className="w-1/2 mx-10">
                     <FormLabel>Topics detected:</FormLabel>
-                    <CheckboxGroup colorScheme='purple'>
-                        <Stack spacing={[1, 5]} direction={['row', 'column']} overflow="auto" height="40">
+                    <CheckboxGroup colorScheme='purple' >
+                        <Stack spacing={[1, 5]} direction={['row', 'column']} overflow="auto" maxHeight={60} >
                             <Checkbox 
                             isChecked={checkedItems[0]} 
                             onChange={(e) => setCheckedItems(e.target.checked)} 
@@ -40,11 +59,32 @@ const Forms = () => {
                             isChecked={checkedItems[0]} 
                             onChange={(e) => setCheckedItems(e.target.checked)} 
                             value='c5'>Checkbox5</Checkbox>
+                            <Checkbox
+                            isChecked={checkedItems[0]}
+                            onChange={(e) => setCheckedItems(e.target.checked)}
+                            value='c6'>Checkbox6</Checkbox>
+                            <Checkbox
+                            isChecked={checkedItems[0]}
+                            onChange={(e) => setCheckedItems(e.target.checked)}
+                            value='c7'>Checkbox7</Checkbox>
+                            <Checkbox 
+                            isChecked={checkedItems[0]} 
+                            onChange={(e) => setCheckedItems(e.target.checked)} 
+                            value='c5'>Checkbox5</Checkbox>
+                            <Checkbox
+                            isChecked={checkedItems[0]}
+                            onChange={(e) => setCheckedItems(e.target.checked)}
+                            value='c6'>Checkbox6</Checkbox>
+                            <Checkbox
+                            isChecked={checkedItems[0]}
+                            onChange={(e) => setCheckedItems(e.target.checked)}
+                            value='c7'>Checkbox7</Checkbox>
                         </Stack>
                     </CheckboxGroup>
                 </div>
-                <div className="w-1/2 px-20">
-                    <Stack spacing={[1, 5]} direction={['row', 'column']} height="40">
+                <div className="w-1/2 mx-10">
+                    <Stack direction={['column']} maxHeight={60} className="flex">
+                        <div>
                         <FormLabel>Set Difficulty Level:</FormLabel>
                         <RadioGroup onChange={setValue} value={value}>
                             <Stack direction='row'>
@@ -53,8 +93,11 @@ const Forms = () => {
                                 <Radio value='hard'>Hard</Radio>
                             </Stack>
                         </RadioGroup>
+                        </div>
+                        <div minHeight="[120px]"></div>
                         
-                        <FormLabel>Set Number of Questions:</FormLabel>
+                        <div>
+                        <FormLabel className="font-extrabold">Set Number of Questions:</FormLabel>
                         <NumberInput defaultValue={10} min={1} max={50} className="w-24">
                             <NumberInputField />
                             <NumberInputStepper>
@@ -62,11 +105,24 @@ const Forms = () => {
                                 <NumberDecrementStepper />
                             </NumberInputStepper>
                         </NumberInput>
+                        </div>
+                        <div className="text-left mt-20">
+                        Disclaimer: Questions generated will be stored and displayed publicly for educational purposes.
+                        </div>
+                        <div className="flex flex-row justify-end flex-1/2">
+                        <button
+                            className="bg-[#8294C4] w-[150px] h-[50px] text-white text-[20px] font-bold rounded-md shadow-md hover:bg-[#6B7FA3] mt-10"
+                            type="submit"
+                        >
+                            Generate
+                        </button>
+                        </div>
                     </Stack>
                 </div>
             </div>
         </FormControl>
-        </Box>
+        </FileUploadContainer>
+        </div>
     )
 };
 

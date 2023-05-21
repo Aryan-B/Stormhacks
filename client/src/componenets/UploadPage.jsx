@@ -90,7 +90,7 @@ const UploadPage = ({
         </nav>
       </header>
 
-      <div className="my-20 mx-12 min-w-[276px] min-h-[536px] flex flex-col text-center">
+      <div className="flex flex-col text-center">
         <h2 className="text-4xl font-bold text-white text-shadow">
           Add Documents
         </h2>
@@ -99,7 +99,7 @@ const UploadPage = ({
             <DragDropText>Drag and drop your files anywhere or</DragDropText>
             <UploadFileBtn type="button" onClick={handleUploadBtnClick}>
               <i className="fas fa-file-upload" />
-              <span> Upload {otherProps.multiple ? "files" : "a file"}</span>
+              <span> Browse {otherProps.multiple ? "files" : "a file"}</span>
             </UploadFileBtn>
             <FormField
               type="file"
@@ -113,7 +113,6 @@ const UploadPage = ({
             {/* <br /> */}
 
             <FilePreviewContainer>
-              <span>To Upload</span>
               <PreviewList>
                 {Object.keys(files).map((fileName, index) => {
                   let file = files[fileName];
@@ -145,7 +144,7 @@ const UploadPage = ({
             </FilePreviewContainer>
             <div className="flex flex-row justify-end flex-1/2">
               <button
-                className="bg-[#8294C4] w-[150px] h-[50px] text-white text-4xl"
+                className="bg-[#8294C4] w-[150px] h-[50px] text-white text-[20px] font-bold rounded-md shadow-md hover:bg-[#6B7FA3] mt-10"
                 type="submit"
               >
                 Next

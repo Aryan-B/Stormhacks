@@ -2,9 +2,9 @@ import styled from "styled-components";
 
 export const FileUploadContainer = styled.section`
   position: relative;
-  margin: 25px 50px 15px;
+  margin: 100px;
   border: 2px dotted lightgray;
-  padding: 35px 35px;
+  padding: 100px;
   border-radius: 6px;
   display: flex;
   flex-direction: column;
@@ -19,14 +19,12 @@ export const FormField = styled.input`
   display: block;
   width: 100%;
   border: none;
-  text-transform: none;
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
   opacity: 0;
-
   &:focus {
     outline: none;
   }
@@ -48,6 +46,7 @@ export const DragDropText = styled.p`
 `;
 
 export const UploadFileBtn = styled.button`
+  margin-top: 2rem;
   box-sizing: border-box;
   appearance: none;
   background-color: transparent;
@@ -71,6 +70,7 @@ export const UploadFileBtn = styled.button`
   align-items: center;
   padding-right: 0;
   justify-content: center;
+  min-height: 50px;
 
   &:after {
     content: "";
