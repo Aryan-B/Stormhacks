@@ -90,57 +90,70 @@ const UploadPage = ({
         </nav>
       </header>
 
-      <form onSubmit={handleDocumentSubmit}>
-        <FileUploadContainer>
-          <DragDropText>Drag and drop your files anywhere or</DragDropText>
-          <UploadFileBtn type="button" onClick={handleUploadBtnClick}>
-            <i className="fas fa-file-upload" />
-            <span> Upload {otherProps.multiple ? "files" : "a file"}</span>
-          </UploadFileBtn>
-          <FormField
-            type="file"
-            ref={fileInputField}
-            onChange={handleNewFileUpload}
-            title=""
-            value=""
-            {...otherProps}
-          />
+      <div className="my-20 mx-12 min-w-[276px] min-h-[536px] flex flex-col text-center">
+        <h2 className="text-4xl font-bold text-white text-shadow">
+          Add Documents
+        </h2>
+        <form onSubmit={handleDocumentSubmit}>
+          <FileUploadContainer>
+            <DragDropText>Drag and drop your files anywhere or</DragDropText>
+            <UploadFileBtn type="button" onClick={handleUploadBtnClick}>
+              <i className="fas fa-file-upload" />
+              <span> Upload {otherProps.multiple ? "files" : "a file"}</span>
+            </UploadFileBtn>
+            <FormField
+              type="file"
+              ref={fileInputField}
+              onChange={handleNewFileUpload}
+              title=""
+              value=""
+              {...otherProps}
+            />
 
-          <br />
+            {/* <br /> */}
 
-          <FilePreviewContainer>
-            <span>To Upload</span>
-            <PreviewList>
-              {Object.keys(files).map((fileName, index) => {
-                let file = files[fileName];
-                let isImageFile = file.type.split("/")[0] === "image";
-                return (
-                  <PreviewContainer key={fileName}>
-                    <div>
-                      {isImageFile && (
-                        <ImagePreview
-                          src={URL.createObjectURL(file)}
-                          alt={`file preview ${index}`}
-                        />
-                      )}
-                      <FileMetaData isImageFile={isImageFile}>
-                        <span>{file.name}</span>
-                        <aside>
-                          <span>{convertBytesToKB(file.size)} kb</span>
-                          <RemoveFileIcon
-                            className="fas fa-trash-alt"
-                            onClick={() => removeFile(fileName)}
+            <FilePreviewContainer>
+              <span>To Upload</span>
+              <PreviewList>
+                {Object.keys(files).map((fileName, index) => {
+                  let file = files[fileName];
+                  let isImageFile = file.type.split("/")[0] === "image";
+                  return (
+                    <PreviewContainer key={fileName}>
+                      <div>
+                        {isImageFile && (
+                          <ImagePreview
+                            src={URL.createObjectURL(file)}
+                            alt={`file preview ${index}`}
                           />
-                        </aside>
-                      </FileMetaData>
-                    </div>
-                  </PreviewContainer>
-                );
-              })}
-            </PreviewList>
-          </FilePreviewContainer>
-        </FileUploadContainer>
-      </form>
+                        )}
+                        <FileMetaData isImageFile={isImageFile}>
+                          <span>{file.name}</span>
+                          <aside>
+                            <span>{convertBytesToKB(file.size)} kb</span>
+                            <RemoveFileIcon
+                              className="fas fa-trash-alt"
+                              onClick={() => removeFile(fileName)}
+                            />
+                          </aside>
+                        </FileMetaData>
+                      </div>
+                    </PreviewContainer>
+                  );
+                })}
+              </PreviewList>
+            </FilePreviewContainer>
+          </FileUploadContainer>
+          <div className="flex flex-row justify-end mr-12 flex-1/2">
+            <button
+              className="bg-[#8294C4] w-[150px] h-[50px] text-white text-4xl"
+              type="submit"
+            >
+              Next
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };
