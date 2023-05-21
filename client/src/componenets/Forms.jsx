@@ -12,28 +12,21 @@ import {
   NumberInputStepper,
   NumberIncrementStepper,
   NumberDecrementStepper,
-  Box,
 } from "@chakra-ui/react";
 
-import {
-  FileUploadContainer,
-  FormField,
-  DragDropText,
-  UploadFileBtn,
-  FilePreviewContainer,
-  ImagePreview,
-  PreviewContainer,
-  PreviewList,
-  FileMetaData,
-  RemoveFileIcon,
-  InputLabel,
-} from "./upload.styles";
+import { FileUploadContainer } from "./upload.styles";
 
 import "./forms.css";
-const Forms = () => {
+const Forms = (props) => {
   const [checkedItems, setCheckedItems] = React.useState(false);
   const [value, setValue] = React.useState("1");
   const handleInputChange = (e) => setInput(e.target.value);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    props.handleSequence(2);
+  };
 
   return (
     <div className="flex flex-col text-center">
@@ -161,7 +154,7 @@ const Forms = () => {
                 <div className="flex flex-row justify-end flex-1/2">
                   <button
                     className="bg-[#8294C4] w-[150px] h-[50px] text-white text-[20px] font-bold rounded-md shadow-md hover:bg-[#6B7FA3] mt-10"
-                    type="submit"
+                    onClick={handleSubmit}
                   >
                     Generate
                   </button>

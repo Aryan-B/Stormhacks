@@ -11,7 +11,7 @@ import {
 import { SearchIcon, AddIcon } from "@chakra-ui/icons";
 
 import "./forms.css";
-const Forms = () => {
+const Topics = (props) => {
   const [formData, setFormData] = useState({
     searchTerm: "",
   });
@@ -26,6 +26,8 @@ const Forms = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     // Do something with the form data, e.g., send it to the server
+
+    props.handleSequence(3);
     console.log(formData);
   };
 
@@ -55,7 +57,7 @@ const Forms = () => {
               <button className="w-[150px] h-[50px]" onClick={handleClear}>Clear</button>
               <button
                 className="bg-[#8294C4] w-[150px] h-[50px] font-bold rounded-md shadow-md hover:bg-[#6B7FA3]"
-                type="submit"
+                onClick={handleSubmit}
               >
                 Generate
               </button>
@@ -117,4 +119,4 @@ const Forms = () => {
   );
 };
 
-export default Forms;
+export default Topics;

@@ -73,6 +73,7 @@ const UploadPage = ({
   const handleDocumentSubmit = (event) => {
     event.preventDefault();
 
+    otherProps.handleSequence(1);    
     console.log("DOCUMENT SUBMITTED", event);
   };
 
