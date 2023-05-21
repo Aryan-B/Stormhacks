@@ -36,8 +36,8 @@ async function parsePdfToText(fileName, bucketName, outputPrefix) {
   const [operation] = await client.asyncBatchAnnotateFiles(request);
   const [filesResponse] = await operation.promise();
   const destinationUri =
-  filesResponse.responses[0].outputConfig.gcsDestination.uri;
-  console.log('Json saved to: ' + destinationUri);
+    filesResponse.responses[0].outputConfig.gcsDestination.uri;
+  console.log("Json saved to: " + destinationUri);
 }
 
 async function listFiles(bucketName, directoryPath) {
@@ -153,7 +153,7 @@ async function parseMultipleGoogleVisionAPIResponses(directoryPath) {
 }
 
 async function parsePDF(directoryPath, bucketName, fileName) {
-  parsePdfToText(fileName, bucketName, directoryPath)
+  parsePdfToText(fileName, bucketName, directoryPath);
 
   const filenames = await listFiles(bucketName, directoryPath);
   await downloadJSONFile(bucketName, filenames, directoryPath);
@@ -166,10 +166,32 @@ async function parsePDF(directoryPath, bucketName, fileName) {
   console.log(result);
 }
 
-// Usage example
-// const bucketName = "cloud-samples-data";
-const bucketName = "stormhacks-pdf";
-const fileName = "pdf/03-474-AppArch.pdf";
-const directoryPath = "AppArch";
+async function uploadPDFToStorage(bucketName, filePath) {
+  const storage = new Storage();
+  const bucket = storage.bucket(bucketName);
 
-parsePDF(directoryPath, bucketName, fileName);
+  try {
+    // Sending the upload request
+    bucket.upload(
+      `./${filePath}`,
+      {
+        destination: `pdf/${filePath}`,
+      },
+      function (err, file) {
+        if (err) {
+          console.error(`Error uploading file: ${err}`);
+        } else {
+          console.log(`${filePath} uploaded to ${bucketName}.`);
+        }
+      }
+    );
+
+    console.log(
+      `PDF file '${filePath}' uploaded successfully to pdf in bucket '${bucketName}'.`
+    );
+  } catch (error) {
+    console.error("Error:", error);
+  }
+}
+
+module.exports = {uploadPDFToStorage, parsePDF};
