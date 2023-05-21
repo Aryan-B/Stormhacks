@@ -7,7 +7,7 @@ async function parsePdfToText(fileName, bucketName, outputPrefix) {
   // Creates a client
   const client = new vision.ImageAnnotatorClient();
 
-  const gcsSourceUri = `gs://${bucketName}/${fileName}`;
+  const gcsSourceUri = `gs://${bucketName}/pdf/${fileName}`;
   const gcsDestinationUri = `gs://${bucketName}/${outputPrefix}/`;
 
   const inputConfig = {
@@ -182,4 +182,5 @@ async function uploadPDFToStorage(file) {
   }
 }
 
+parsePDF("output", "stormhacks-pdf", "test.pdf");
 module.exports = {uploadPDFToStorage, parsePDF};

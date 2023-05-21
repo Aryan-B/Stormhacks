@@ -14,10 +14,10 @@ app.use(express.urlencoded({ extended: false }));
 // app.use('/api', [apiRouter]);
 
 const multer = Multer({
-  storage: Multer.memoryStorage(),
-  limits: {
-    fileSize: 5 * 1024 * 1024, // no larger than 5mb, you can change as needed.
-  },
+  storage: Multer.memoryStorage()
+  // limits: {
+  //   fileSize: 5 * 1024 * 1024, // no larger than 5mb, you can change as needed.
+  // },
 });
 
 if (process.env.SERVE_STATIC) {
@@ -27,11 +27,11 @@ if (process.env.SERVE_STATIC) {
   });
 }
 
-app.post("/pdf", multer.single("file"), function (req, res, next) {
+app.post("/pdf", multer.single("file"), async function (req, res, next) {
   if (!req.file) {
     return res.status(400).send("No file uploaded.");
   }
-  uploadPDFToStorage(req.file);
+  await uploadPDFToStorage(req.file);
 	console.log(req.file);
 });
 
