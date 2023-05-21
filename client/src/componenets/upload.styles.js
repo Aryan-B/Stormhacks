@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const FileUploadContainer = styled.section`
   position: relative;
-  margin: 25px 0 15px;
+  margin: 25px 50px 15px;
   border: 2px dotted lightgray;
   padding: 35px 20px;
   border-radius: 6px;
@@ -49,7 +49,7 @@ export const UploadFileBtn = styled.button`
   box-sizing: border-box;
   appearance: none;
   background-color: transparent;
-  border: 2px solid #3498db;
+  border: 2px solid #8294C4;
   cursor: pointer;
   font-size: 1rem;
   line-height: 1;
@@ -58,7 +58,7 @@ export const UploadFileBtn = styled.button`
   text-transform: uppercase;
   font-weight: 700;
   border-radius: 6px;
-  color: #3498db;
+  color: #8294C4;
   position: relative;
   overflow: hidden;
   z-index: 1;
@@ -79,7 +79,7 @@ export const UploadFileBtn = styled.button`
     transform: translateX(-50%);
     width: 0;
     height: 100%;
-    background: #3498db;
+    background: #8294C4;
     z-index: -1;
     transition: width 250ms ease-in-out;
   }
@@ -139,7 +139,6 @@ export const FilePreviewContainer = styled.article`
 
 export const PreviewList = styled.section`
   display: flex;
-  flex-wrap: wrap;
   margin-top: 10px;
 
   @media only screen and (max-width: 400px) {
@@ -178,7 +177,7 @@ export const RemoveFileIcon = styled.i`
 
 export const PreviewContainer = styled.section`
   padding: 0.25rem;
-  width: 20%;
+  width: 150px;
   height: 120px;
   border-radius: 6px;
   box-sizing: border-box;

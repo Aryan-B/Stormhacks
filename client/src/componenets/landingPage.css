@@ -13,7 +13,7 @@
     height: 100vh;
     width: 100%;
     display: flex;
-    background-color: #ACB1D6;
+    /* background-color: #ACB1D6; */
     position: absolute;
     z-index: 10;
     transition: all 0.5s ease-in-out;
