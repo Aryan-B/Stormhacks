@@ -12,7 +12,6 @@ import {
   PreviewList,
   FileMetaData,
   RemoveFileIcon,
-  InputLabel,
 } from "./upload.styles";
 
 const KILO_BYTES_PER_BYTE = 1000;
@@ -74,22 +73,12 @@ const UploadPage = ({
   const handleDocumentSubmit = (event) => {
     event.preventDefault();
 
+    otherProps.handleSequence(1);    
     console.log("DOCUMENT SUBMITTED", event);
   };
 
   return (
     <div className="min-w-full min-h-screen">
-      <header className="sticky">
-        <nav className="flex flex-row items-center justify-between m-7 font-bold">
-          <h1 className="text-white text-shadow">Q-Genius</h1>
-          <ul className="flex flex-row gap-4 text-[20px] text-white">
-            <li>SEARCH</li>
-            <li>UPLOAD</li>
-            <li>ABOUT</li>
-          </ul>
-        </nav>
-      </header>
-
       <div className="flex flex-col text-center">
         <h2 className="text-4xl font-bold text-white text-shadow">
           Add Documents
@@ -144,7 +133,7 @@ const UploadPage = ({
             </FilePreviewContainer>
             <div className="flex flex-row justify-end flex-1/2">
               <button
-                className="bg-[#8294C4] w-[150px] h-[50px] text-white text-[20px] font-bold rounded-md shadow-md hover:bg-[#6B7FA3] mt-10"
+                className="bg-[#8294C4] w-[150px] h-[50px] text-white text-[20px] font-bold rounded-md shadow-md hover:bg-[#6B7FA3] mt-5"
                 type="submit"
               >
                 Next

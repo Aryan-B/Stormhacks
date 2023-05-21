@@ -18,6 +18,7 @@ export const FormField = styled.input`
   font-size: 18px;
   display: block;
   width: 100%;
+  height: 50px;
   border: none;
   position: absolute;
   top: 0;
