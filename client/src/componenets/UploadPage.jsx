@@ -1,4 +1,5 @@
-import React, { useEffect, useState, useRef } from "react";
+import { useState, useRef } from "react";
+import "../App.css";
 
 import {
   FileUploadContainer,
@@ -11,7 +12,7 @@ import {
   PreviewList,
   FileMetaData,
   RemoveFileIcon,
-  InputLabel
+  InputLabel,
 } from "./upload.styles";
 
 const KILO_BYTES_PER_BYTE = 1000;
@@ -26,14 +27,13 @@ const UploadPage = ({
   maxFileSizeInBytes = DEFAULT_MAX_FILE_SIZE_IN_BYTES,
   ...otherProps
 }) => {
-
   const fileInputField = useRef(null);
   const [files, setFiles] = useState({});
   const [newDocs, setNewDOcs] = useState([]);
 
   const updateUploadedFiles = (files) => {
     setNewDOcs([...newDocs, ...files]);
-  }
+  };
 
   const handleUploadBtnClick = () => {
     fileInputField.current.click();
@@ -74,14 +74,22 @@ const UploadPage = ({
   const handleDocumentSubmit = (event) => {
     event.preventDefault();
 
-    console.log("DOCUMENT SUBMITTED", event)
-
-    //logic to create new user...
+    console.log("DOCUMENT SUBMITTED", event);
   };
 
   return (
-    <div className="upload_page">
-      <h1>Upload Page</h1>
+    <div className="min-w-full min-h-screen">
+      <header className="sticky">
+        <nav className="flex flex-row items-center justify-between m-7 font-bold">
+          <h1 className="text-white text-shadow">Q-Genius</h1>
+          <ul className="flex flex-row gap-4 text-[20px] text-white">
+            <li>SEARCH</li>
+            <li>UPLOAD</li>
+            <li>ABOUT</li>
+          </ul>
+        </nav>
+      </header>
+
       <form onSubmit={handleDocumentSubmit}>
         <FileUploadContainer>
           <DragDropText>Drag and drop your files anywhere or</DragDropText>
@@ -133,17 +141,8 @@ const UploadPage = ({
           </FilePreviewContainer>
         </FileUploadContainer>
       </form>
-
-      <br />
-      <br />
-      <br />
-
-      
-
-
-
     </div>
   );
-}
+};
 
 export default UploadPage;
