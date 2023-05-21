@@ -12,7 +12,6 @@ import {
   PreviewList,
   FileMetaData,
   RemoveFileIcon,
-  InputLabel,
 } from "./upload.styles";
 
 const KILO_BYTES_PER_BYTE = 1000;

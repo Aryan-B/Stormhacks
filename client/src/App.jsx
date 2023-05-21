@@ -9,6 +9,7 @@ import Forms from './componenets/Forms'
 import Carousels from './componenets/Carousels'
 import LandingPage from './componenets/LandingPage'
 import Navbar from './componenets/navbar'
+import Topics from './componenets/Topics'
 
 function App() {
   const [show, setShow] = useState(true);
@@ -21,6 +22,7 @@ function App() {
           {!show ? <Navbar/> : <></>}
           <UploadPage/>
           <Forms />
+          <Topics/>
           <Carousels/>
         </div>
       </ChakraBaseProvider>
