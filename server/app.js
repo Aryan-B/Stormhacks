@@ -4,6 +4,7 @@ const logger = require("morgan");
 const cors = require("cors");
 const Multer = require("multer");
 const { uploadPDFToStorage, parsePDF } = require("./utils/pdfParser");
+const { ContextCreator, generatePracticeQuestion } = require("./utils/chatUtil");
 var multiparty = require('multiparty');
 
 const app = express();
@@ -49,11 +50,16 @@ app.post('/api/upload', upload.single('pdfFile'), async (req, res) => {
 	const text = await parsePDF(req.file.originalname, "stormhacks-pdf", req.file.originalname);
 
   //integrate chatgpt
+  const contextJson = await ContextCreator(text);
+
+  //Save contextJson to MongoDB
   
-
-
 	res.json({ message: text });
 });
+
+
+
+
 
 // app.post('/api/users', (req, res) => {
   //   // Logic to create a new user

@@ -1,37 +1,11 @@
 const { Configuration, OpenAIApi } = require("openai");
 const fs = require('fs');
-const config = require("./config/config");
+const config = require("../config/config");
 
 const configuration = new Configuration({
   apiKey: config?.API_KEY,
 });
 const openai = new OpenAIApi(configuration);
-
-// take a .txt file and separate into 3000 words chunks
-/* async function splitTextFile(filePath, maxWordsPerElement) {
-  chunkedText = [];
-
-  // read file from inputFile
-  let text = fs.readFileSync(filePath, 'utf8');
-  text = text.replace(/(\r\n|\n|\r)/gm, " ");
-
-  // split into 3000 words
-  const words = text.split(' ');
-  let chunk = '';
-  for (let i = 0; i < words.length; i++) {
-    if (chunk.length < maxWordsPerElement) {
-      chunk += words[i] + ' ';
-    } else {
-      chunkedText.push(chunk);
-      chunk = '';
-
-      // add the word that was too long for the previous chunk
-      chunk += words[i] + ' ';
-    }
-  }
-  // return array of chunks
-  return chunkedText;
-} */
 
 async function generateContextText(inputText) {
   // console.log(process.env.OPENAI_API_KEY);
@@ -66,11 +40,11 @@ async function generateTopicText(inputText) {
       [
         {
           "role": "system",
-          "content": "You are a topic and keywords generator. you are given a chunk of text and you have to generate important topics and keywords from it in less than 1000 words."
+          "content": "You are a topics generator. you are given a chunk of text and you have to generate a list of important 3-5 topics. The response must be generated in a JSON array format only"
         },
         {
           "role": "user",
-          "content": "Give me a list of topics and keywords from this text: " + inputText + "\n\n"
+          "content": "Give me a JSON array list of topics from this text: " + inputText + "\n\n"
         },
       ],
   });
@@ -79,7 +53,7 @@ async function generateTopicText(inputText) {
   //console.log(completion.data.choices[0].message);
 }
 
-async function generatePratice(context, topic, level) {
+async function generatePratice(context, topic, level, noOFQues) {
 
   const completion = await openai.createChatCompletion({
     model: "gpt-3.5-turbo",
@@ -87,7 +61,7 @@ async function generatePratice(context, topic, level) {
       [
         {
           "role": "system",
-          "content": "You are a practice question generator. you are given context generated from text and a topic, use them to generate 10 practice questions and their detailed informative answers for given difficulty level based on the topic. You must return the response in JSON Question Answer format"
+          "content": "You are a practice question generator. you are given context generated from text and a topic, use them to generate " + noOFQues + " practice questions and their detailed informative answers for given difficulty level based on the topic. You must return the response in JSON Question Answer format"
         },
         {
           "role": "user",
@@ -98,6 +72,72 @@ async function generatePratice(context, topic, level) {
 
   console.log(completion.data.choices[0].message?.content);
 }
+
+async function ContextCreator(inputText) {
+
+  // create a JSON obj to store topics as key and their context as values
+  // if a topic is repeacted then context will be merged
+
+  let ContextJSON = {}
+
+  // text processing
+  inputText = inputText.replace(/(\r\n|\n|\r)/gm, " ");
+  const words = inputText.split(' ');
+
+  // create an array to store chunks of length 3000 words max
+  let wordChunks = [];
+
+  for (let i = 0; i < words.length; i + 3000) {
+
+    let chunk = [];
+
+    if (words.length > 3000) {
+      chunk = words.splice(0, 3000);
+    } else {
+      chunk = words.splice(0, words.length);
+    }
+
+    wordChunks.push(chunk);
+  }
+
+  // now loop thur each chunk in workChunks generating context and topic
+  for (let i = 0; i < wordChunks.length; i++) {
+
+    // convert the chunk into text
+    let chunk_text = wordChunks[i].join(' ');
+
+    // generate context and topic for the chunk
+    let context = await generateContextText(chunk_text);
+    let topics = await generateTopicText(chunk_text);
+
+    // loop thru all the topics
+    for (let j = 0; i < topics.length; j++) {
+
+      // check if topic already exists in the json
+      if (ContextJSON.hasOwnProperty(topics[i])) {
+        let newcontext = await generateContextText(ContextJSON[topics[i]] + "\n\n" + context);
+        ContextJSON[topics[i]] = newcontext;
+      } else {
+        ContextJSON[topics[i]] = context;
+      }
+    }
+  }
+
+  return ContextJSON;
+}
+
+async function generatePracticeQuestion(topic, noOFQues, level) {
+
+  // get contextjSON from mongoDB
+
+  // grab context for the given topic
+  let context = ContextJSON[topic];
+
+  let Ques = generatePratice(context, topic, level, noOFQues)
+
+  return Ques;
+}
+
 
 async function main() {
 
@@ -215,3 +255,5 @@ async function main() {
 }
 
 main();
+
+module.exports = { ContextCreator, generatePracticeQuestion }
