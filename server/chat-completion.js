@@ -2,6 +2,11 @@ const { Configuration, OpenAIApi } = require("openai");
 const fs = require('fs');
 const config = require("./config/config");
 
+const configuration = new Configuration({
+  apiKey: config?.API_KEY,
+});
+const openai = new OpenAIApi(configuration);
+
 // take a .txt file and separate into 3000 words chunks
 /* async function splitTextFile(filePath, maxWordsPerElement) {
   chunkedText = [];
@@ -31,10 +36,6 @@ const config = require("./config/config");
 async function generateContextText(inputText) {
   // console.log(process.env.OPENAI_API_KEY);
   //console.log(inputText);
-  const configuration = new Configuration({
-    apiKey: config?.API_KEY,
-  });
-  const openai = new OpenAIApi(configuration);
 
   const completion = await openai.createChatCompletion({
     model: "gpt-3.5-turbo",
@@ -50,18 +51,14 @@ async function generateContextText(inputText) {
         },
       ],
   });
-  console.log(completion.data.choices[0].message);
+  //console.log(completion.data.choices[0].message);
 
-  return completion.data.choices[0].message;
+  return completion.data.choices[0].message?.content;
 }
 
 async function generateTopicText(inputText) {
   // console.log(process.env.OPENAI_API_KEY);
   //console.log(inputText);
-  const configuration = new Configuration({
-    apiKey: config?.API_KEY,
-  });
-  const openai = new OpenAIApi(configuration);
 
   const completion = await openai.createChatCompletion({
     model: "gpt-3.5-turbo",
@@ -77,7 +74,29 @@ async function generateTopicText(inputText) {
         },
       ],
   });
-  console.log(completion.data.choices[0].message);
+
+  return completion.data.choices[0].message?.content;
+  //console.log(completion.data.choices[0].message);
+}
+
+async function generatePratice(context, topic, level) {
+
+  const completion = await openai.createChatCompletion({
+    model: "gpt-3.5-turbo",
+    messages:
+      [
+        {
+          "role": "system",
+          "content": "You are a practice question generator. you are given context generated from text and a topic, use them to generate 10 practice questions and their detailed informative answers for given difficulty level based on the topic. You must return the response in JSON Question Answer format"
+        },
+        {
+          "role": "user",
+          "content": "Give me a list of question and functional answers from the context below on the topic of " + topic + " at a " + level + " difficulty level in a JSON format:" + context + "\n\n"
+        },
+      ],
+  });
+
+  console.log(completion.data.choices[0].message?.content);
 }
 
 async function main() {
@@ -190,6 +209,9 @@ async function main() {
     topicArrayAll = topic;
 
   }
+
+  // generate 10 questions using contextArrayall 
+  generatePratice(contextArrayAll, "Object Constructor and Methods", "hard")
 }
 
 main();
