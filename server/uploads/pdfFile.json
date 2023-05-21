@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "stormhacks-studybuddy",
+  "private_key_id": "5308ede7e0360e4f146d85d365edca28bd55924a",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDg4MRuBmDzX/EK\n4ORGhUTyNNH8lkSf+HFLur48/tgIEf3w94+utdGs14V3jS9mfYzAnbUk0+D3C9Un\n7e1vJvNvdAPILqs0qon3mIh8nA/VPkwdJRlCXczXK+hrT8nhLmq/4QiT6uGC0Hj2\nfXWH+OaI7RCj6VF5vhi3VLZewYSS+bqmllmXafa84VOFezBpcg0ui7kXCWrWOr6A\nU3EFqetWqKC26Gf+Ss2l0KQaR8QDAe6l/ct6wD76yBzRj5nfuJnAsEEXtG4mG0Pg\nJBQcWAwWZM7Grdx3h7MgEyXOXeeg2iMRs8lzPVkaxRqp4WpUdUQnmvNm+hnQcfrP\nm+q+5olLAgMBAAECggEAIQQfEuBQ36qYYzZ9jXUHmF/07JbLYIlDaRDz2VS5NwYd\nOIHAULBVJoFGETVjXjLUtXryG4QYJW1RUFl4YLdhSl3IKF3huQvI0ddNQq5PDMnm\ntui5eqr25iiGKSs/wpXkCmPptH3puiENgXMODHaYskXMCaS515v3WQNQ+zyCUGmf\naw0E9wly5ydnGZL8ZGoKotq8AnyIA367gSKNqziBNXyQKPqlEiaYZ7zz/f7HPZTN\ne5vjJ1N9bbnqMDk1pzKlRxn+3Nj09CHKCjAjJugat0wz7uYD7VUJngXBGxJev36q\nmssvPzKMXsc8bYnoYT8WNLvP/VueqGAXFWJknlzeMQKBgQD1TOiFM2rlIFK/l1TS\noXdhxGBjYcUjY3l7n2XsDf0yO4lNk4+TevsEMQMPMV5FJcY91SYjAc3UMkxKOId7\nlXzxzpcks+759by4rb221MDNEkfc1ftY7YMJc1o8mONF1N/WUsQX2WRWWvqQPEX0\nx7IHrGLJwnSZ0STA7peoXZp/7QKBgQDqr9EOH5vUxl96oP22tp7nu4vWVzpQtNLY\n/dHvPJQuYlNEut8iZKu4r5DEqxz4p87KuAJrdby07W4LDSetC5hkDgAMneIInqgh\nacnH4zNg39oGjpOutf+VG12R+TRYNYLxqY0J6/VUqNB349WD1UAw8HGO+q5drRH2\nhv80QknXFwKBgQDalGOFfeG8tebGbnTZE6QrbC9vn0lpVVSFAe5yP6zkvASHKfwA\nMM/IVlwhh543A4f4xRwsiYj9kqxEXsbrKrOhTLOFswg5l+1Iqxin+ECs+6Mpd0t3\nXH0tSKqZ4Kp0KVIjyrCNh9tOz9cB+5NioSdUixmkKzB3d9PGT1S4ZGAtqQKBgF3s\n8bk6U06r+giFKCWZHy3VdJjbHj6wr/YiV4Ps9c0+kt7d/3GvYr6unTzo0tZ9qpid\nXnKNk3HB2JnZsPhjvKDGraRfB9i1TsrYoOY7+xMZZBPduiNhOaH+asuCNj3bZMW9\nOvIummhAi/Z/m7OAhIlRodE8aM6a9qZ4zuimYxEPAoGAX/ggnI9l1fzaljy07Rsg\nDrLSkzVBiUV2BANuHpcOp0a9jI74NAZMxdQ5cqBQ9/ZuFzu4s4vS8Jb6aTIs/240\nfdVcS3FrtKACiCARzr5mZmDkh+bcyKLhvYUtSUs6jp7Vd1fVqBudfAk/hN75Ioo0\nR+NL9K3n85Q+N+lVLZQRuFI=\n-----END PRIVATE KEY-----\n",
+  "client_email": "aryan-684@stormhacks-studybuddy.iam.gserviceaccount.com",
+  "client_id": "112740109699184182014",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/aryan-684%40stormhacks-studybuddy.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

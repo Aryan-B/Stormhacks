@@ -1,0 +1,1321 @@
+JS: History and Philosophy
+
+Object Creation
+
+Constructor/Methods
+
+Prototypes/Inheritance
+
+Reflection
+
+Lecture 2: JavaScript - Objects and Prototypes
+CPEN400A - Building Modern Web Applications - Winter
+2020-1
+
+Karthik Pattabiraman
+The University of British Columbia
+Department of Electrical and Computer Engineering
+Vancouver, Canada
+
+Thursday September 21, 2017
+
+JS: History and Philosophy
+
+Object Creation
+
+Constructor/Methods
+
+Javascript: History and Philosophy
+
+1
+
+Javascript: History and Philosophy
+
+2
+
+Object Creation in Javascript
+
+3
+
+Object Constructor and Methods
+
+4
+
+Prototypes and Inheritance
+
+5
+
+Type-Checking and Reflection
+
+Prototypes/Inheritance
+
+Reflection
+
+2
+
+JS: History and Philosophy
+
+Object Creation
+
+Constructor/Methods
+
+Prototypes/Inheritance
+
+Reflection
+
+Javascript: History
+
+3
+
+Invented in 10 days by Brendan Eich at Nescape in May 1995
+as part of the Navigator 2.0 browser
+Based on Self, but dressed up to look like Java
+Standardized by committee in 2000 as ECMAScript
+
+Brendan Eich (Inventor of
+JavaScript):
+JavaScript (JS) had to “look like
+Java” only less so, be Java’s dumb
+kid brother or boy-hostage sidekick.
+Plus, I had to be done in ten days
+or something worse than JS would
+have happened
+
+JS: History and Philosophy
+
+Object Creation
+
+Constructor/Methods
+
+Prototypes/Inheritance
+
+Reflection
+
+Javascript: Philosophy
+Everything is an object
+Includes functions, non-primitive types etc.
+Even the class of an object is an object !
+
+Nothing has a type
+Or its type is what you want it to be (duck typing)
+No compile-time checking (unless in strict mode)
+Runtime type errors can occur
+
+Programmers make mistakes anyways
+If an exception is thrown, do not terminate program (artifact
+of browsers, rather than JS)
+
+Code is no different from data
+So we can use ‘eval’ to convert data to code
+
+Function’s can be called with fewer or more arguments than
+needed (variadic functions)
+
+4
+
+JS: History and Philosophy
+
+Object Creation
+
+Constructor/Methods
+
+Prototypes/Inheritance
+
+Reflection
+
+This lecture
+
+We’ll learn about Objects and Classes the “old way” (without
+ES6)
+ES6 makes it much simpler to declare and use objects, but ....
+it’s just syntactic sugar around the old way of doing things
+Not understanding objects from the ground up can result in
+nasty surprises
+Things will make a lot more sense if we go from the old way
+
+5
+
+JS: History and Philosophy
+
+Object Creation
+
+Constructor/Methods
+
+Object Creation in Javascript
+
+1
+
+Javascript: History and Philosophy
+
+2
+
+Object Creation in Javascript
+
+3
+
+Object Constructor and Methods
+
+4
+
+Prototypes and Inheritance
+
+5
+
+Type-Checking and Reflection
+
+Prototypes/Inheritance
+
+Reflection
+
+6
+
+JS: History and Philosophy
+
+Object Creation
+
+Constructor/Methods
+
+Prototypes/Inheritance
+
+Reflection
+
+What is an Object in JS ?
+Container of properties, where each property has a name and
+a value, and is mutable
+Property names can be any string, including the empty string
+Property values can be anything except undefined
+
+What are not objects ?
+Primitive types such as numbers, booleans, strings
+null and undefined – these are special types
+
+What about classes ?
+There are no classes in JavaScript, as we understand them in
+languages such as Java
+“What ? How can we have objects without classes ?”
+Objects use what are known as prototypes
+An object can inherit the properties of another object using
+prototype linkage (more later)
+
+7
+
+JS: History and Philosophy
+
+Object Creation
+
+Constructor/Methods
+
+Prototypes/Inheritance
+
+Reflection
+
+Example of Object Creation
+
+1
+2
+3
+4
+5
+6
+7
+8
+
+// Initializing an empty object
+var empty_object = {};
+// Object with two attributes
+v a r name = {
+f i r s t N a m e : " Karthik " ,
+l a s t N a m e : " Pattabiraman " ;
+};
+
+NOTE
+You don’t need a quote around firstName and lastName as they’re
+valid JavaScript identifiers
+
+8
+
+JS: History and Philosophy
+
+Object Creation
+
+Constructor/Methods
+
+Prototypes/Inheritance
+
+Reflection
+
+Retrieving an Object’s Property
+
+1
+2
+3
+4
+5
+6
+7
+
+name [ " firstName " ]
+// Equivalent to :
+name . f i r s t N a m e
+name [ " lastName " ]
+// Equivalent to :
+name . l a s t N a m e
+
+What if you write name["middleName"]?
+Returns undefined. Later use of this value will result in an
+“TypeError” exception being thrown
+
+9
+
+JS: History and Philosophy
+
+Object Creation
+
+Constructor/Methods
+
+Prototypes/Inheritance
+
+Update of an Object’s Property
+
+1
+2
+
+name [ " firstName " ] = " Different firstName " ;
+name . l a s t N a m e = " Different lastName " ;
+
+What happens if the property is not present ?
+It’ll get added to the object with the value
+
+In short, objects behave like hash tables in JS
+
+Reflection
+
+10
+
+JS: History and Philosophy
+
+Object Creation
+
+Constructor/Methods
+
+Prototypes/Inheritance
+
+Reflection
+
+Objects are passed by REFERENCE !
+
+In JavaScript, objects are passed by REFRENCE
+No copies are ever made unless explicitly asked
+i.e., JSON.parse(JSON.stringify(obj))
+
+Changes made in one instance are instantly visible in all
+instances as it is by reference
+
+11
+
+JS: History and Philosophy
+
+Object Creation
+
+Constructor/Methods
+
+Object Constructor and Methods
+
+1
+
+Javascript: History and Philosophy
+
+2
+
+Object Creation in Javascript
+
+3
+
+Object Constructor and Methods
+
+4
+
+Prototypes and Inheritance
+
+5
+
+Type-Checking and Reflection
+
+Prototypes/Inheritance
+
+Reflection
+
+12
+
+JS: History and Philosophy
+
+Object Creation
+
+Constructor/Methods
+
+Prototypes/Inheritance
+
+Reflection
+
+How to create an object ?
+Define the object type by writing a “Constructor function”
+By convention, use a capital letter as first letter
+Use “this” within function to initialize properties
+
+Call constructor function with the new operator and pass it
+the values to initialize
+Forgetting the ‘new’ can have unexpected effects
+
+‘new’ operator to create an object of instance ‘Object’, which
+is a global, unique JavaScript object
+Object Creation using New
+1
+2
+3
+4
+5
+6
+
+v a r P e r s o n = f u n c t i o n ( f i r s t N a m e , lastName , g e n d e r )
+{
+t h i s . f i r s t N a m e= f i r s t N a m e ;
+t h i s . lastName = lastName ;
+t h i s . gender = gender ;
+}
+v a r p = new P e r s o n ( " John " , " Smith " , " Male " ) ;
+
+13
+
+JS: History and Philosophy
+
+Object Creation
+
+Constructor/Methods
+
+Prototypes/Inheritance
+
+Reflection
+
+this keyword
+
+It’s a reference to the current object, and is valid only inside
+the object
+Need to explicitly use this to reference the object’s fields and
+methods
+Forgetting this means you’ll create new local vars
+Can be stored in ordinary local variables
+Cannot be modified from within the object
+
+14
+
+JS: History and Philosophy
+
+Object Creation
+
+Constructor/Methods
+
+Prototypes/Inheritance
+
+Reflection
+
+Constructors
+
+Using the new operator as we’ve seen
+this is set to the new object that was created
+Automatically returned unless the constructor chooses to
+return another object (non-primitive)
+
+Bad things can happen if you forget the ‘new’ before the call
+to the constructor (Later)
+
+15
+
+JS: History and Philosophy
+
+Object Creation
+
+Constructor/Methods
+
+Prototypes/Inheritance
+
+Object Methods
+Functions that are associated with an object
+Like any other field of the object and invoked as
+object.methodName()
+Example: Polygon.draw(10, 100);
+this is automatically defined inside the method
+Must be explicitly added to the object
+1
+2
+3
+4
+5
+6
+7
+
+this . dist = function ( point ) {
+r e t u r n Math . s q r t ( ( t h i s . x − p o i n t . x )
+∗ ( this . x − point . x)
++ ( this . y − point . y)
+∗ ( this . y − point . y) ) ;
+}
+
+NOTE
+this is bound to the object on which it is invoked
+
+Reflection
+
+16
+
+JS: History and Philosophy
+
+Object Creation
+
+Constructor/Methods
+
+Prototypes/Inheritance
+
+Reflection
+
+Calling a Method
+
+Simply say object.methodName( parameters )
+Example: p1.dist( p2 );
+this is bound to the object on which it is called. In the
+example, this = p1. This binding occurs at invocation time
+(late binding).
+
+17
+
+JS: History and Philosophy
+
+Object Creation
+
+Constructor/Methods
+
+Prototypes and Inheritance
+
+1
+
+Javascript: History and Philosophy
+
+2
+
+Object Creation in Javascript
+
+3
+
+Object Constructor and Methods
+
+4
+
+Prototypes and Inheritance
+
+5
+
+Type-Checking and Reflection
+
+Prototypes/Inheritance
+
+Reflection
+
+18
+
+JS: History and Philosophy
+
+Object Creation
+
+Constructor/Methods
+
+Prototypes/Inheritance
+
+Reflection
+
+Object Prototype
+
+Every object has a field called Prototype
+Prototype is a pointer to the object the object is created from
+(i.e., the class object)
+Changing the prototype object instantly changes all instances
+of the object
+
+The default prototype value for a given object is Object
+Can be changed when using new or Object.create to construct
+the object
+
+19
+
+JS: History and Philosophy
+
+Object Creation
+
+Constructor/Methods
+
+Prototypes/Inheritance
+
+Reflection
+
+Object Prototype: Example
+
+In the previous example, what is the prototype value of a
+“Person” object ?
+1
+2
+
+v a r p = new P e r s o n ( " John " , " Smith " , " Male " ) ;
+console . log ( Object . getPrototypeOf (p) ) ;
+
+What will happen if we do the following instead
+1
+
+c o n s o l e . log ( Object . getPrototypeOf ( Person ) ) ;
+
+20
+
+JS: History and Philosophy
+
+Object Creation
+
+Constructor/Methods
+
+Prototypes/Inheritance
+
+Reflection
+
+Prototype Field
+
+Prototypes of objects created through {} (object literal
+syntax) is
+Object.prototype
+
+Prototype of objects created using new Object
+Object.prototype
+
+Prototype of objects created using new and constructors
+functions (e.g., Person)
+Prototype field set according to the constructor function (if
+object) (e.g., Person)
+Object.prototype (otherwise)
+
+21
+
+JS: History and Philosophy
+
+Object Creation
+
+Constructor/Methods
+
+Prototypes/Inheritance
+
+Reflection
+
+What ’new’ really does?
+Initializes a new native object
+Sets the object’s “prototype” field to the constructor
+function’s prototype field
+In Chrome (V8 engine), the prototype of an object instance o
+is accessible through the hidden property o.__proto__.
+Direct usage should be avoided! Use instead
+Object.getPrototypeOf(o)
+
+If it’s not an Object, sets it to Object.prototype
+i.e., Object.create(null)
+
+Calls the constructor function, with the object as this
+Any fields initialized by the function are added to this
+Returns the object created if and only if the constructor
+function returns a primitive type (i.e., number, boolean, etc.).
+Ideally, the constructor function shouldn’t return anything!
+
+22
+
+JS: History and Philosophy
+
+Object Creation
+
+Constructor/Methods
+
+Prototypes/Inheritance
+
+Reflection
+
+Prototype Modification
+
+An object’s prototype object is just another object (typically).
+So it can be modified too.
+We can add properties to prototype objects – the property
+becomes instantly visible in all instances of that prototype
+(even if they were created before the property was added)
+Reflects in all descendant objects as well (later)
+
+23
+
+JS: History and Philosophy
+
+Object Creation
+
+Constructor/Methods
+
+Prototypes/Inheritance
+
+Prototype Modification: Example
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+
+v a r p1 = new P e r s o n ( " John " , " Smith " , " Male " ) ;
+Person . prototype . p r i n t = f u n c t i o n () {
+c o n s o l e . l o g ( " Person : " + t h i s . f i r s t N a m e
++ t h i s . lastName + t h i s . gender + "\n" ) ;
+}
+v a r p2 = new P e r s o n ( " Linda " , " James " , " Female " ) ;
+p1 . p r i n t ( ) ;
+p2 . p r i n t ( ) ;
+
+Reflection
+
+24
+
+JS: History and Philosophy
+
+Object Creation
+
+Constructor/Methods
+
+Prototypes/Inheritance
+
+Reflection
+
+Delegation with Prototypes
+
+When you lookup an Object’s property, and the property is
+not defined in the Object,
+It checks if the Object’s prototype is a valid object
+If so, it does the lookup on the prototype object
+If it finds the property, it returns it
+Otherwise, it recursively repeats the above process till it
+encounters Object.prototype
+If it doesn’t find the property even after all this, it returns
+undefined
+
+25
+
+JS: History and Philosophy
+
+Object Creation
+
+Constructor/Methods
+
+Prototypes/Inheritance
+
+Reflection
+
+Prototype Inheritance
+
+Due to Delegation, Prototypes can be used for (simulating)
+inheritance in JavaScript
+Set the prototype field of the child object to that of the parent
+object
+Any access to child object’s properties will first check the child
+object (so it can over-ride them)
+If it can’t find the property in the child object, it looks up the
+parent object specified in prototype
+This process carries on recursively till the top of the prototype
+chain is reached (Object.prototype)
+
+26
+
+JS: History and Philosophy
+
+Object Creation
+
+Constructor/Methods
+
+Prototypes/Inheritance
+
+Reflection
+
+Prototype Inheritance: Example
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+
+v a r Employee = f u n c t i o n ( f i r s t N a m e , lastName , Gender ,
+{
+P e r s o n . c a l l ( t h i s , f i r s t N a m e , lastName , G e n d e r ) ;
+this . t i t l e = t i t l e ;
+}
+
+27
+
+title )
+
+Employee . p r o t o t y p e = new P e r s o n ( ) ;
+/* Why should you create a new person object ? */
+Employee . p r o t o t y p e . c o n s t r u c t o r = Employee ;
+v a r emp = new Employee ( " ABC " , " XYZ " , " Male " , " Manager " ) ;
+
+JS: History and Philosophy
+
+Object Creation
+
+Constructor/Methods
+
+Prototypes/Inheritance
+
+Reflection
+
+Object.create( proto )
+
+Creates a new object with the specified prototype object and
+properties
+proto parameter must be null or an object
+Throws TypeError otherwise
+
+Object.create Argument
+Can specify initialization parameters directly in Object.create
+as an (optional) 2nd argument
+var e = Object.create( Person, { Title: {value: “Manager” }} )
+We can specify other elements such as enumerable,
+configurable etc. (more later)
+
+28
+
+JS: History and Philosophy
+
+Object Creation
+
+Constructor/Methods
+
+Prototypes/Inheritance
+
+Reflection
+
+Prototype Inheritance with Object.create: Example
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+
+var Person = {
+f i r s t N a m e : " John " ;
+l a s t N a m e : " Smith " ;
+g e n d e r : " Male " ;
+print : function () {
+c o n s o l e . l o g ( " Person : " + t h i s . f i r s t N a m e
++ t h i s . lastName + t h i s . gender ;
+}
+};
+var e = Object . c r e a t e ( Person ) ;
+e . t i t l e = " Manager " ;
+
+29
+
+JS: History and Philosophy
+
+Object Creation
+
+Constructor/Methods
+
+Prototypes/Inheritance
+
+Reflection
+
+Design Tips
+
+Object.create might be cleaner in some situations, rather than
+using new and .prototype (no need for artificial objects)
+With new, you need to remember to use this and also NOT
+return an object in the constructor
+Otherwise, bad things can happen
+
+Object.create allows you to create objects without running
+their constructor functions
+Need to run your constructor manually if you want
+i.e., Person.call(p2, “Bob”)
+
+30
+
+JS: History and Philosophy
+
+Object Creation
+
+Constructor/Methods
+
+Prototypes/Inheritance
+
+Reflection
+
+Class Activity
+
+Construct a class hierarchy with the following properties using
+both pseudo-class inheritance (through constructors) and
+prototypal inheritance (thro’ Object.create). Add an area
+method and a toString prototype function to all the objects.
+Point { x, y } ⇒ Circle { x, y ,r } ⇒ Ellipse { x, y, r, r2 }
+
+31
+
+JS: History and Philosophy
+
+Object Creation
+
+Constructor/Methods
+
+Type-Checking and Reflection
+
+1
+
+Javascript: History and Philosophy
+
+2
+
+Object Creation in Javascript
+
+3
+
+Object Constructor and Methods
+
+4
+
+Prototypes and Inheritance
+
+5
+
+Type-Checking and Reflection
+
+Prototypes/Inheritance
+
+Reflection
+
+32
+
+JS: History and Philosophy
+
+Object Creation
+
+Constructor/Methods
+
+Prototypes/Inheritance
+
+Reflection
+
+Reflection and Type-Checking
+
+In JS, you can query an object for its type, prototype, and
+properties at runtime
+To get the Prototype: getPrototypeOf()
+To get the type of: typeof
+To check if it’s of certain instance: instanceof
+To check if it has a certain property: in
+To check if it has a property, and the property was not
+inherited through the prototype chain: hasOwnProperty()
+
+33
+
+JS: History and Philosophy
+
+Object Creation
+
+Constructor/Methods
+
+Prototypes/Inheritance
+
+typeof
+
+34
+
+Can be used for both primitive types and objects
+1
+2
+3
+4
+5
+6
+
+Reflection
+
+t y p e o f ( P e r s o n . f i r s t N a m e ) => S t r i n g
+t y p e o f ( P e r s o n . l a s t N a m e ) => S t r i n g
+t y p e o f ( P e r s o n . ag e ) => Number
+t y p e o f ( P e r s o n . c o n s t r u c t o r ) => f u n c t i o n ( p r o t o t y p e )
+t y p e o f ( P e r s o n . t o S t r i n g ) => f u n c t i o n ( from O b j e c t )
+t y p e o f ( P e r s o n . middleName ) => u n d e f i n e d
+
+JS: History and Philosophy
+
+Object Creation
+
+Constructor/Methods
+
+Prototypes/Inheritance
+
+Reflection
+
+instanceof
+
+35
+
+Checks if an object has in its prototype chain the prototype
+property of the constructor
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+
+o b j e c t i n s t a n c e o f c o n s t r u c t o r => B o o l e a n
+// Example :
+v a r p = new P e r s o n ( /* ... */ ) ;
+v a r e = new Employee ( /* ... */ ) ;
+p
+p
+e
+e
+p
+e
+
+instanceof
+instanceof
+instanceof
+instanceof
+instanceof
+instanceof
+
+Person ;
+// True
+Employee ;
+// False
+Person ;
+// True
+Employee ;
+// True
+Object ;
+// True
+Object ;
+// True
+
+JS: History and Philosophy
+
+Object Creation
+
+Constructor/Methods
+
+Prototypes/Inheritance
+
+Reflection
+
+getPrototypeOf
+
+Gets an object’s prototype (From the prototype field) –
+Object.getPrototypeOf(Obj)
+Equivalent of ‘super’ in languages like Java
+
+Notice the differences between invoking getPrototypeOf on an
+object constructed using the “associative array” syntax vs
+through a constructor!
+1
+2
+3
+4
+
+var proto = {};
+var obj = Object . c r e a t e ( proto ) ;
+Object . getPrototypeOf ( obj ) ;
+// proto
+O b j e c t . g e t P r o t o t y p e O f ( p r o t o ) ; // Object
+
+36
+
+JS: History and Philosophy
+
+Object Creation
+
+Constructor/Methods
+
+Prototypes/Inheritance
+
+in operator
+
+Tests if an object o has property p
+Checks both object and its prototype chain
+1
+2
+3
+4
+5
+6
+
+v a r p = new P e r s o n ( /* ... */ ) ;
+v a r e = new Employee ( /* ... */ ) ;
+" firstName " i n p ;
+// True
+" lastName " i n e ;
+// True
+" Title " i n p ;
+// False
+
+Reflection
+
+37
+
+JS: History and Philosophy
+
+Object Creation
+
+Constructor/Methods
+
+Prototypes/Inheritance
+
+Reflection
+
+hasOwnProperty
+
+Only checks the object’s properties itself
+Does not follow the prototype chain
+Useful to know if an object has overridden a property or
+introduced a new one
+1
+2
+3
+
+v a r p = new Employee ( /* ... */ ) ;
+p . h a s O w n P r o p e r t y ( " Title " ) // True
+p . h a s O w n P r o p e r t y ( " FirstName " ) // False
+
+38
+
+JS: History and Philosophy
+
+Object Creation
+
+Constructor/Methods
+
+Prototypes/Inheritance
+
+Reflection
+
+Iterating over an Object’s fields
+
+Go over the fields of an object and perform some action(s) on
+them (e.g., print them)
+Can use hasOwnProperty as a filter if needed
+1
+2
+3
+4
+5
+6
+
+v a r name ;
+f o r ( name i n o b j ) {
+i f ( t y p e o f ( o b j [ name ] ) != " function " ) {
+document . w r i t e l n ( name + " : " + o b j [ name ] ) ;
+}
+}
+
+39
+
+JS: History and Philosophy
+
+Object Creation
+
+Constructor/Methods
+
+Prototypes/Inheritance
+
+Reflection
+
+Removing an Object’s Property
+
+To remove a property from an object if it has one (not
+removed from its prototype), use:
+1
+
+d e l e t e o b j e c t . p r o p e r t y −name
+
+Properties inherited from the prototype cannot be deleted
+unless the object had overriden them.
+1
+2
+
+v a r e = new Employee ( /* ... */ ) ;
+delete e . Title ;
+// Title is removed from e
+
+40
+
+JS: History and Philosophy
+
+Object Creation
+
+Constructor/Methods
+
+Prototypes/Inheritance
+
+Reflection
+
+Object Property Types
+
+Properties of an object can be configured to have the
+following attributes (or not):
+Enumerable: Show up during enumeration(for.. in)
+Configurable: Can be removed using delete, and the attributes
+can be changed after creation
+Writeable: Can be modified after creation
+
+By default, all properties of an object are enumerable,
+configurable and writeable
+
+41
+
+JS: History and Philosophy
+
+Object Creation
+
+Constructor/Methods
+
+Prototypes/Inheritance
+
+Reflection
+
+Specifying Object Property types
+Can be done during Object creation with Object.create
+1
+2
+3
+4
+5
+6
+
+var e = Object . c r e a t e ( Person ,
+{ T i t l e : { v a l u e : " Manager " ,
+enumerable : true ,
+c o n f i g u r a b l e : true ,
+writeable : false
+} );
+
+Can be done after creation using Object.defineProperty
+1
+2
+3
+4
+5
+
+O b j e c t . d e f i n e P r o p e r t y ( Employee , " Title " ,
+{ v a l u e : " Manager " ,
+enumerable : true ,
+c o n f i g u r a b l e : true ,
+writable : false } ) ;
+
+42
+
+JS: History and Philosophy
+
+Object Creation
+
+Constructor/Methods
+
+Prototypes/Inheritance
+
+Reflection
+
+Design Guidelines
+
+Use for. . . in loops to iterate over object’s properties to make
+the code extensible
+Avoid hardcoding property names if possible
+Use instanceof rather than getPrototypeOf
+
+Try to fix the attributes of a property at object creation time.
+With very few exceptions, there is no need to change a
+property’s attribute.
+
+43
+
+JS: History and Philosophy
+
+Object Creation
+
+Constructor/Methods
+
+Prototypes/Inheritance
+
+Reflection
+
+Class Activity
+
+Write a function to iterate over the properties of a given
+object, and identify those properties that it inherited from its
+prototype AND overrode it with its own values
+Do not consider functions
+
+44
+
+JS: History and Philosophy
+
+Object Creation
+
+Constructor/Methods
+
+Table of Contents
+
+1
+
+Javascript: History and Philosophy
+
+2
+
+Object Creation in Javascript
+
+3
+
+Object Constructor and Methods
+
+4
+
+Prototypes and Inheritance
+
+5
+
+Type-Checking and Reflection
+
+Prototypes/Inheritance
+
+Reflection
+
+45
+
+

@@ -1,5 +1,6 @@
 import { useState, useRef } from "react";
 import "../App.css";
+import axios from "axios";
 
 import {
   FileUploadContainer,
@@ -12,11 +13,10 @@ import {
   PreviewList,
   FileMetaData,
   RemoveFileIcon,
-  InputLabel,
 } from "./upload.styles";
 
 const KILO_BYTES_PER_BYTE = 1000;
-const DEFAULT_MAX_FILE_SIZE_IN_BYTES = 500000;
+const DEFAULT_MAX_FILE_SIZE_IN_BYTES = 5000000;
 
 const convertNestedObjectToArray = (nestedObj) =>
   Object.keys(nestedObj).map((key) => nestedObj[key]);
@@ -73,24 +73,30 @@ const UploadPage = ({
 
   const handleDocumentSubmit = (event) => {
     event.preventDefault();
+    
+    console.log("NEW DOCS", newDocs);
 
+    const formData = new FormData();
+    formData.append('pdfFile', newDocs[0]);
+
+    axios.post('http://localhost:3000/api/upload', formData)
+      .then((response) => {
+        console.log('File uploaded successfully');
+        otherProps.handlePdfId(response.data.id)
+        otherProps.handleSequence(1); 
+      })
+      .catch((error) => {
+        console.error('Error uploading file:', error);
+      });
+
+    
+    
     console.log("DOCUMENT SUBMITTED", event);
   };
 
   return (
     <div className="min-w-full min-h-screen">
-      <header className="sticky">
-        <nav className="flex flex-row items-center justify-between m-7 font-bold">
-          <h1 className="text-white text-shadow">Q-Genius</h1>
-          <ul className="flex flex-row gap-4 text-[20px] text-white">
-            <li>SEARCH</li>
-            <li>UPLOAD</li>
-            <li>ABOUT</li>
-          </ul>
-        </nav>
-      </header>
-
-      <div className="my-20 mx-12 min-w-[276px] min-h-[536px] flex flex-col text-center">
+      <div className="flex flex-col text-center">
         <h2 className="text-4xl font-bold text-white text-shadow">
           Add Documents
         </h2>
@@ -99,7 +105,7 @@ const UploadPage = ({
             <DragDropText>Drag and drop your files anywhere or</DragDropText>
             <UploadFileBtn type="button" onClick={handleUploadBtnClick}>
               <i className="fas fa-file-upload" />
-              <span> Upload {otherProps.multiple ? "files" : "a file"}</span>
+              <span> Browse {otherProps.multiple ? "files" : "a file"}</span>
             </UploadFileBtn>
             <FormField
               type="file"
@@ -113,7 +119,6 @@ const UploadPage = ({
             {/* <br /> */}
 
             <FilePreviewContainer>
-              <span>To Upload</span>
               <PreviewList>
                 {Object.keys(files).map((fileName, index) => {
                   let file = files[fileName];
@@ -145,7 +150,7 @@ const UploadPage = ({
             </FilePreviewContainer>
             <div className="flex flex-row justify-end flex-1/2">
               <button
-                className="bg-[#8294C4] w-[150px] h-[50px] text-white text-4xl"
+                className="bg-[#8294C4] w-[150px] h-[50px] text-white text-[20px] font-bold rounded-md shadow-md hover:bg-[#6B7FA3] mt-5"
                 type="submit"
               >
                 Next

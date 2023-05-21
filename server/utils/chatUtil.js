@@ -84,15 +84,15 @@ async function ContextCreator(inputText) {
   inputText = inputText.replace(/(\r\n|\n|\r)/gm, " ");
   const words = inputText.split(' ');
 
-  // create an array to store chunks of length 3000 words max
+  // create an array to store chunks of length 2500 words max
   let wordChunks = [];
 
-  for (let i = 0; i < words.length; i + 3000) {
+  for (let i = 0; i < words.length; i + 2500) {
 
     let chunk = [];
 
-    if (words.length > 3000) {
-      chunk = words.splice(0, 3000);
+    if (words.length > 2500) {
+      chunk = words.splice(0, 2500);
     } else {
       chunk = words.splice(0, words.length);
     }
@@ -130,12 +130,10 @@ async function ContextCreator(inputText) {
   return ContextJSON;
 }
 
-async function generatePracticeQuestion(id, topic, noOFQues, level) {
+async function generatePracticeQuestion(id, topic, noOFQues, level, context) {
 
   // get contextjSON from mongoDB
-  const contextCollection = client.db("stormhacks").collection("context");
-  let ContextJSON = await contextCollection.findOne({ _id: id });
-  let context = ContextJSON[topic];
+  
   let Ques = generatePratice(context, topic, level, noOFQues)
 
   return Ques;
@@ -144,7 +142,7 @@ async function generatePracticeQuestion(id, topic, noOFQues, level) {
 // async function main() {
 
 //   const filePath = 'data/extracted_text.txt';
-//   const maxWordsPerElement = 3000;
+//   const maxWordsPerElement = 2500;
 //   // let array = []
 
 //   // Store 4 things 
@@ -159,24 +157,24 @@ async function generatePracticeQuestion(id, topic, noOFQues, level) {
 //   let topicArrayAll = '';
 
 //   // the input file text need to be split into chunks of 7000 words and then the remaining text
-//   // the remaining text will be split into chunks of 3000 words
+//   // the remaining text will be split into chunks of 2500 words
 
 
 //   // read file from inputFile
 //   let text = fs.readFileSync(filePath, 'utf8');
 //   text = text.replace(/(\r\n|\n|\r)/gm, " ");
 
-//   // split into 3000 words
+//   // split into 2500 words
 //   const words = text.split(' ');
 
 //   let chunk_1 = [];
 //   let chunk_remain_words = [];
 
-//   // check if the text is more than 3000 words
-//   if (words.length > 3000) {
+//   // check if the text is more than 2500 words
+//   if (words.length > 2500) {
 
-//     // splice the first 3000 words
-//     chunk_1 = words.splice(0, 3000);
+//     // splice the first 2500 words
+//     chunk_1 = words.splice(0, 2500);
 
 //     // splice the remaining words
 //     chunk_remain_words = words.splice(0, words.length);
@@ -206,13 +204,13 @@ async function generatePracticeQuestion(id, topic, noOFQues, level) {
 //   // create an array for the remaining text chunks
 //   let ChunksArrayRemain = [];
 
-//   // split the remaining text into chunks of 3000 words
-//   for (let i = 0; i < chunk_remain_words.length; i + 3000) {
+//   // split the remaining text into chunks of 2500 words
+//   for (let i = 0; i < chunk_remain_words.length; i + 2500) {
 
 //     let chunk = [];
 
-//     if (chunk_remain_words.length > 3000) {
-//       chunk = chunk_remain_words.splice(0, 3000);
+//     if (chunk_remain_words.length > 2500) {
+//       chunk = chunk_remain_words.splice(0, 2500);
 //     } else {
 //       chunk = chunk_remain_words.splice(0, chunk_remain_words.length);
 //     }

@@ -1,27 +1,41 @@
-import './App.css'
-
-import { ChakraBaseProvider } from '@chakra-ui/react'
+import "./App.css";
+import { useState } from "react";
+import { ChakraBaseProvider } from "@chakra-ui/react";
 // `@chakra-ui/theme` is a part of the base install with `@chakra-ui/react`
-import chakraTheme from '@chakra-ui/theme'
+import chakraTheme from "@chakra-ui/theme";
 
-import UploadPage from './componenets/UploadPage'
-import Forms from './componenets/Forms'
-import SummaryPage from './componenets/summaryPage'
-import LandingPage from './componenets/LandingPage'
+import UploadPage from "./componenets/UploadPage";
+import Forms from "./componenets/Forms";
+import Carousels from "./componenets/Carousels";
+import LandingPage from "./componenets/LandingPage";
+import Navbar from "./componenets/navbar";
+import Topics from "./componenets/Topics";
 
 function App() {
+  const [show, setShow] = useState(true);
+  const [sequence, setSequence] = useState(0);
+  const [pdfId, setPdfId] = useState('');
 
   return (
     <>
       <ChakraBaseProvider theme={chakraTheme}>
         <div>
-          <LandingPage/>
-          <UploadPage/>
-          <Forms />
+          <LandingPage handleShow={setShow} show={show} />
+          {!show ? (
+            <div>
+              <Navbar />
+              {sequence === 0 && <UploadPage handleSequence={setSequence} handlePdfId={setPdfId}/>}
+              {sequence === 1 && <Forms handleSequence={setSequence} pdfId={pdfId}/>}
+              {sequence === 2 && <Topics handleSequence={setSequence}/>}
+              {sequence === 3 && <Carousels />}
+            </div>
+          ) : (
+            <></>
+          )}
         </div>
       </ChakraBaseProvider>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
