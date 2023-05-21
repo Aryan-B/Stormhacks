@@ -10,3 +10,13 @@
     background-color: white;
     height: 50vh;
 }
+
+.box-content{
+    overflow-y: scroll;
+    color: black;
+    height: 50vh;
+    /* columns: 2; */
+    column-gap: 10px;
+    display: center;
+    flex-wrap: wrap;
+  }
