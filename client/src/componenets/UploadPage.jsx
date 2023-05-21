@@ -90,7 +90,7 @@ const UploadPage = ({
         </nav>
       </header>
 
-      <div className="my-20 mx-12 min-w-[276px] min-h-[536px] flex flex-col text-center">
+      <div className="min-w-[276px] min-h-[536px] flex flex-col text-center">
         <h2 className="text-4xl font-bold text-white text-shadow">
           Add Documents
         </h2>
