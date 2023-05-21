@@ -78,6 +78,10 @@ async function ContextCreator(inputText) {
   // create a JSON obj to store topics as key and their context as values
   // if a topic is repeacted then context will be merged
 
+  //const filePath = '../data/extracted_text.txt';
+  //let text = fs.readFileSync(filePath, 'utf8');
+  //text = text.replace(/(\r\n|\n|\r)/gm, " ");
+
   let ContextJSON = {}
 
   // text processing
@@ -110,15 +114,20 @@ async function ContextCreator(inputText) {
     let context = await generateContextText(chunk_text);
     let topics = await generateTopicText(chunk_text);
 
+    // parse topics
+    topics = JSON.parse(topics)
+
     // loop thru all the topics
-    for (let j = 0; i < topics.length; j++) {
+    for (let j = 0; j < topics.length; j++) {
+
+      //console.log(topics[j]," ->>", ContextJSON.hasOwnProperty(topics[j]))
 
       // check if topic already exists in the json
-      if (ContextJSON.hasOwnProperty(topics[i])) {
-        let newcontext = await generateContextText(ContextJSON[topics[i]] + "\n\n" + context);
-        ContextJSON[topics[i]] = newcontext;
+      if (ContextJSON.hasOwnProperty(topics[j])) {
+        let newcontext = await generateContextText(ContextJSON[topics[j]] + "\n\n" + context);
+        ContextJSON[topics[j]] = newcontext;
       } else {
-        ContextJSON[topics[i]] = context;
+        ContextJSON[topics[j]] = context;
       }
     }
   }
@@ -137,7 +146,6 @@ async function generatePracticeQuestion(topic, noOFQues, level) {
 
   return Ques;
 }
-
 
 // async function main() {
 
