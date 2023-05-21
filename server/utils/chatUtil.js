@@ -57,7 +57,7 @@ async function generatePratice(context, topic, level, noOFQues) {
       [
         {
           "role": "system",
-          "content": "You are a practice question generator. you are given context generated from text and a topic, use them to generate " + noOFQues + " practice questions and their detailed informative answers for given difficulty level based on the topic. You must return the response in JSON Question Answer format"
+          "content": "You are a practice question generator. you are given context generated from text and a topic, use them to generate " + noOFQues + " practice questions and their detailed informative answers for given difficulty level based on the topic. You must return the response in only a JSON format"
         },
         {
           "role": "user",

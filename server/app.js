@@ -30,6 +30,7 @@ run().catch(console.dir);
 
 const app = express();
 const multer = require('multer');
+const { json } = require("body-parser");
 // const upload = multer({ dest: 'uploads/' });
 
 const storage = multer.diskStorage({
@@ -83,7 +84,7 @@ app.post('/api/upload', upload.single('pdfFile'), async (req, res) => {
 app.post('/question', async (req, res) => {
     // get the id from request
     const id = req.body.id;
-    const topic = req.body.topics.join(", ");
+    const topic = req.body.topics[0];
     const noOFQuestions = req.body.noOFQues;
     const level = req.body.level;
 
@@ -91,9 +92,16 @@ app.post('/question', async (req, res) => {
 
     const contextCollection = client.db("stormhacks").collection("context");
     let ContextJSON = await contextCollection.findOne({ _id: new ObjectId(id) });
-    let context = ContextJSON[topic];
+    let context = ContextJSON["context"][topic];
 
-    const question = generatePracticeQuestion(id, topic, noOFQuestions, level, context);
+    // console.log(ContextJSON);
+    console.log(context);
+    console.log(topic);
+    console.log(noOFQuestions);
+    console.log(level);
+  
+    const question = await generatePracticeQuestion(id, topic, noOFQuestions, level, context);
+    console.log(question);
     return res.json({ questions: question });
   });
 
