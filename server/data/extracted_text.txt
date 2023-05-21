@@ -1,0 +1,1381 @@
+Functions in JS
+
+Invoking
+
+Arguments and Exceptions
+
+Nested Functions/Closures
+
+Higher-Order Functions/Currying
+
+Lecture 3: JavaScript - Functions
+CPEN400A - Building Modern Web Applications - Winter
+2021-1
+
+Karthik Pattabiraman
+The University of British Columbia
+Department of Electrical and Computer Engineering
+Vancouver, Canada
+
+Functions in JS
+
+Invoking
+
+Arguments and Exceptions
+
+Nested Functions/Closures
+
+Functions in JavaScript: Creation
+
+1
+
+Functions in JavaScript: Creation
+
+2
+
+Invoking a Function
+
+3
+
+Arguments and Exceptions
+
+4
+
+Nested Functions and Closures
+
+5
+
+Higher-Order Functions and Currying
+
+Higher-Order Functions/Currying
+
+2
+
+Functions in JS
+
+Invoking
+
+Arguments and Exceptions
+
+Nested Functions/Closures
+
+Higher-Order Functions/Currying
+
+Note about Functions
+
+Functions are one of the most powerful features in JavaScript,
+and it is here that JS really shines (for the most part)
+However, there are some important differences between
+functions in JS and other imperative languages, such as Java
+We’ll touch upon some of these differences here
+
+3
+
+Functions in JS
+
+Invoking
+
+Arguments and Exceptions
+
+Nested Functions/Closures
+
+Higher-Order Functions/Currying
+
+Important Differences with Java
+
+In JavaScript, functions are (Data) objects
+Can be assigned to variables and invoked
+Can be properties of an object (methods)
+Can be passed around to other functions
+
+Functions can be nested inside other functions
+Can be used to create what are known as closures
+
+Functions can be called with fewer or more arguments than
+they take in their parameter lists
+Can be used to create curried functions
+
+4
+
+Functions in JS
+
+Invoking
+
+Arguments and Exceptions
+
+Nested Functions/Closures
+
+Higher-Order Functions/Currying
+
+Creating a Standalone Function
+
+5
+
+var add = function ( a, b ) {
+return a + b;
+}
+
+Variable to which
+function is assigned
+
+Function has no
+name – anonymous.
+Can specify name.
+
+Parameters of the
+function – set to
+arguments passed in,
+undefined if none
+
+Functions in JS
+
+Invoking
+
+Arguments and Exceptions
+
+Nested Functions/Closures
+
+Higher-Order Functions/Currying
+
+Functions are Objects too !
+
+Every function is an instance of a Function object, which is
+itself derived from Object
+A function object has two prototype fields:
+A hidden prototype field to Function.prototype, which in turn
+links to Object.prototype
+A visible prototype field (Function.prototype) which points to
+an Object whose constructor function points to the function
+itself !
+
+6
+
+Functions in JS
+
+Invoking
+
+Arguments and Exceptions
+
+Nested Functions/Closures
+
+Higher-Order Functions/Currying
+
+What’s really going on ?
+
+Function Object
+(foo)
+
+7
+
+Function prototype
+Object
+
+hidden prototype
+visible prototype
+
+Dummy Object
+Constructor
+
+Why is it done in this convoluted way ?
+
+Functions in JS
+
+Invoking
+
+Arguments and Exceptions
+
+Nested Functions/Closures
+
+Higher-Order Functions/Currying
+
+Reason: Constructors
+
+In JavaScript, Functions can be used as constructors for
+Object creation (new operator)
+However, JS engine does not know ahead of time which
+functions are constructors and which aren’t
+For the constructor functions, the (visible) prototype is copied
+to the new object’s prototype
+New object’s prototype’s constructor is thus set to the
+constructor function that created the object
+
+8
+
+Functions in JS
+
+Invoking
+
+Arguments and Exceptions
+
+Nested Functions/Closures
+
+Higher-Order Functions/Currying
+
+Example
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+
+function Point ( x , y ) {
+this . x = x ; this . y = y ;
+};
+v a r p1 = new P o i n t ( 2 , 3 ) ;
+v a r p2 = new P o i n t ( 5 , 7 ) ;
+c o n s o l e . l o g ( O b j e c t . g e t P r o t o t y p e O f ( p1 ) == O b j e c t .
+g e t P r o t o t y p e O f ( p2 ) ) ;
+c o n s o l e . l o g ( O b j e c t . g e t P r o t o t y p e O f ( p1 ) . c o n s t r u c t o r ) ;
+
+9
+
+Functions in JS
+
+Invoking
+
+Arguments and Exceptions
+
+Nested Functions/Closures
+
+Higher-Order Functions/Currying
+
+Methods
+
+10
+
+Functions can be properties of an Object
+Analoguous to methods in classical languages
+Need to explicitely reference this in their bodies
+1
+2
+3
+4
+5
+6
+7
+
+this . dist = function ( point ) {
+r e t u r n Math . s q r t ( ( t h i s . x − p o i n t . x )
+∗ ( this . x − point . x)
++ ( this . y − point . y)
+∗ ( this . y − point . y) ) ;
+}
+
+NOTE
+this is bound to the object on which it is invoked
+
+Functions in JS
+
+Invoking
+
+Arguments and Exceptions
+
+Nested Functions/Closures
+
+Higher-Order Functions/Currying
+
+Adding Functions to Prototype
+
+Functions can also be added to the Prototype object of an
+object
+These will be applied to all instances of the object
+Can be overridden by individual objects if needed
+1
+2
+3
+
+Point . prototype . toString = function ( ) {
+r e t u r n "(" + t h i s . x + " , " + t h i s . y + ")" ;
+}
+
+11
+
+Functions in JS
+
+Invoking
+
+Arguments and Exceptions
+
+Nested Functions/Closures
+
+Invoking a Function
+
+1
+
+Functions in JavaScript: Creation
+
+2
+
+Invoking a Function
+
+3
+
+Arguments and Exceptions
+
+4
+
+Nested Functions and Closures
+
+5
+
+Higher-Order Functions and Currying
+
+Higher-Order Functions/Currying
+
+12
+
+Functions in JS
+
+Invoking
+
+Arguments and Exceptions
+
+Nested Functions/Closures
+
+Higher-Order Functions/Currying
+
+Invoking Functions
+
+There are four ways to invoke functions in JS
+1
+2
+3
+4
+
+Method calls (for functions in Objects)
+Standalone function (using function name)
+Constructors (creating object instances)
+Using Function.apply or Function.call
+
+Each of these methods has different bindings of the this
+parameter
+
+13
+
+Functions in JS
+
+Invoking
+
+Arguments and Exceptions
+
+Nested Functions/Closures
+
+Higher-Order Functions/Currying
+
+1) Method call (over an object)
+
+object.methodName( parameters )
+Example: p1.dist (p2 );
+NOTE
+this is bound to the object on which it is called. In the
+example, this = p1. This binding occurs at invocation time
+(late binding).
+
+14
+
+Functions in JS
+
+Invoking
+
+Arguments and Exceptions
+
+Nested Functions/Closures
+
+Higher-Order Functions/Currying
+
+2) Calling a standalone function
+
+If the function is a Standalone one, then the object is called
+with the global context as this
+Can lead to some strange situations (later)
+A mistake in the language according to Crockford !
+1
+2
+3
+4
+5
+
+v a r add = f u n c t i o n ( p1 , p2 ) {
+r e t u r n new P o i n t ( p1 . x + p2 . x , p1 . y + p2 . y ) ;
+}
+add ( p1 , p2 ) ;
+
+15
+
+Functions in JS
+
+Invoking
+
+Arguments and Exceptions
+
+Nested Functions/Closures
+
+Higher-Order Functions/Currying
+
+3) Constructors
+
+Using the new operator as we’ve seen
+this is set to the new object that was created
+Automatically returned unless the constructor chooses to
+return another object (non-primitive)
+
+Bad things can happen if you forget the new before the call to
+the constructor (Why ?)
+
+16
+
+Functions in JS
+
+Invoking
+
+Arguments and Exceptions
+
+Nested Functions/Closures
+
+Higher-Order Functions/Currying
+
+4) Function.apply
+
+Most general way to call a function
+Can set this to any arbitrary object in program
+Can emulate the other three ways of invocation
+Can also use call with the arguments specified
+apply more generic than call (i.e., can support variadic
+arguments). See later for call
+call vs apply: https://hangar.runway7.net/javascript/
+difference-call-apply
+
+17
+
+Functions in JS
+
+Invoking
+
+Arguments and Exceptions
+
+Nested Functions/Closures
+
+Higher-Order Functions/Currying
+
+4) Function.apply - Example 2
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+
+18
+
+v a r add2 = f u n c t i o n ( p o i n t 1 , p o i n t 2 ) {
+var p = Object . c r e a t e ( t h i s ) ;
+p . x = point1 . x + point2 . x ;
+p . y = point1 . y + point2 . y ;
+return p ;
+}
+v a r P o i n t s = [ p1 , p2 ] ;
+v a r p = add2 . a p p l y ( O b j e c t . g e t P r o t o t y p e O f ( p1 ) ,
+document . w r i t e l n ( p ) ;
+
+Points ) ;
+
+Functions in JS
+
+Invoking
+
+Arguments and Exceptions
+
+Nested Functions/Closures
+
+Higher-Order Functions/Currying
+
+4) Function.call
+
+19
+
+call is similar to apply except that the arguments are specified
+directly as part of the function parameters rather than in an
+array
+We used call before for calling the super-class’s constructor
+(for inheritance)
+1
+2
+
+v a r p = add2 . c a l l ( O b j e c t . g e t P r o t o t y p e O f ( p1 ) ,
+document . w r i t e l n ( p ) ;
+
+p1 , p2 ) ;
+
+Functions in JS
+
+Invoking
+
+Arguments and Exceptions
+
+Nested Functions/Closures
+
+Higher-Order Functions/Currying
+
+Class Activity
+
+Emulate the new operator through a function new using
+Object.create and Function.apply. Add this function to the
+Point class and not through the Point’s prototype as it must
+be called on the class itself and not over a specific instance.
+This should not duplicate the constructor’s code, but invoke it.
+You can access arguments of a function in the array
+arguments from within the function (variadic arguments - see
+later in this presentation).
+To call this function, you’d write code like:
+1
+2
+
+v a r p1 = P o i n t . new ( 2 , 5 ) ;
+v a r p2 = P o i n t . new ( 3 , 7 ) ;
+
+20
+
+Functions in JS
+
+Invoking
+
+Arguments and Exceptions
+
+Nested Functions/Closures
+
+Arguments and Exceptions
+
+1
+
+Functions in JavaScript: Creation
+
+2
+
+Invoking a Function
+
+3
+
+Arguments and Exceptions
+
+4
+
+Nested Functions and Closures
+
+5
+
+Higher-Order Functions and Currying
+
+Higher-Order Functions/Currying
+
+21
+
+Functions in JS
+
+Invoking
+
+Arguments and Exceptions
+
+Nested Functions/Closures
+
+Higher-Order Functions/Currying
+
+Arguments
+
+JavaScript does not enforce any rules about function
+parameters matching their arguments in number (or type for
+that matter)
+Any additional arguments are simply disregarded (unless
+function accesses them)
+Fewer arguments mean the remaining parameters are set to
+undefined
+
+22
+
+Functions in JS
+
+Invoking
+
+Arguments and Exceptions
+
+Nested Functions/Closures
+
+Higher-Order Functions/Currying
+
+Variadic Functions
+
+23
+
+Functions can access their arguments using the arguments
+array
+Excess parameters are also stored in the array
+1
+2
+3
+4
+5
+6
+7
+8
+9
+
+var addAll = function ( ) {
+v a r p = new P o i n t ( 0 , 0 ) ;
+f o r ( v a r i =0; i <a r g u m e n t s . l e n g t h ;
+var p o i n t = arguments [ i ] ;
+p . x = p . x + point . x ;
+p . y = p . y + point . y ;
+}
+return p ;
+}
+
+i ++) {
+
+Functions in JS
+
+Invoking
+
+Arguments and Exceptions
+
+Nested Functions/Closures
+
+Higher-Order Functions/Currying
+
+Return Values
+
+Functions can return anything they like
+Objects, including other functions (for closures)
+Primitive types including null
+
+If the function returns nothing, it’s default return value
+becomes undefined
+The only exception is if it’s a constructor
+Returning object will cause the new object to be lost !
+
+24
+
+Functions in JS
+
+Invoking
+
+Arguments and Exceptions
+
+Nested Functions/Closures
+
+Higher-Order Functions/Currying
+
+Exceptions
+
+25
+
+Functions may also throw exceptions
+Exception can be any object, but it’s customary to have an
+exception name and an error message
+Other fields may be added based on context
+
+Exceptions are caught using try. . . catch
+Single catch block for the try
+Catch can do whatever it wants with the exception, including
+throwing it again
+
+Functions in JS
+
+Invoking
+
+Arguments and Exceptions
+
+Nested Functions/Closures
+
+Higher-Order Functions/Currying
+
+Exception: Example
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+
+var addAll = function ( ) {
+v a r p = new P o i n t ( 0 , 0 ) ;
+f o r ( v a r i =0; i <a r g u m e n t s . l e n g t h ; i ++) {
+var
+p o i n t = arguments [ i ] ;
+i f ( p . x==u n d e f i n e d | | p . y==u n d e f i n e d )
+throw { name : T y p e E r r o r ,
+m e s s a g e : " Object " + p o i n t + " is not of type
+Point "
+};
+p . x = p . x + point . x ;
+p . y = p . y + point . y ;
+}
+return p ;
+}
+
+26
+
+Functions in JS
+
+Invoking
+
+Arguments and Exceptions
+
+Nested Functions/Closures
+
+Higher-Order Functions/Currying
+
+Class Activity
+
+Modify the addAll code to make sure you return the sum so
+far if the exception is thrown, i.e., sum of elements till the
+faulty element (you may modify the exception object as you
+see fit).
+Note
+By return, we mean that the caller will have access to the sum up
+until the faulty element
+Write code to invoke the addAll function correctly, and to
+handle the exception appropriately.
+
+27
+
+Functions in JS
+
+Invoking
+
+Arguments and Exceptions
+
+Nested Functions/Closures
+
+Nested Functions and Closures
+
+1
+
+Functions in JavaScript: Creation
+
+2
+
+Invoking a Function
+
+3
+
+Arguments and Exceptions
+
+4
+
+Nested Functions and Closures
+
+5
+
+Higher-Order Functions and Currying
+
+Higher-Order Functions/Currying
+
+28
+
+Functions in JS
+
+Invoking
+
+Arguments and Exceptions
+
+Nested Functions/Closures
+
+Higher-Order Functions/Currying
+
+Nested Functions: Closures
+In JavaScript, functions can nest inside other functions, unlike
+in languages like Java
+Nested functions can access their enclosing function’s
+properties (this is a good thing)
+However, nested functions cannot access the parent function’s
+this and arguments!
+Closures
+A closure is a nested function that “remembers” the value of
+it’s enclosing function’s variables
+Can be used for implementing simple, stateful objects
+Allow variables to be hidden from other objects
+Can allow objects to be constructed in parts
+
+29
+
+Functions in JS
+
+Invoking
+
+Arguments and Exceptions
+
+Nested Functions/Closures
+
+Higher-Order Functions/Currying
+
+Closures: Example
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+
+30
+
+f u n c t i o n Adder ( v a l ) {
+var value = val ;
+return function ( inc )
+//
+//
+//
+
+{
+Returns a function that needs
+to be invoked to get it to
+perform the operation
+
+value = value + inc ;
+// Can access parent function
+// ( Adder ) ’s local variable
+
+};
+
+}
+
+return value ;
+
+v a r f = Adder ( 5 ) ;
+document . w r i t e l n ( f ( 3 ) ) ; // Prints 8
+document . w r i t e l n ( f ( 2 ) ) ; // Prints 10
+
+Functions in JS
+
+Invoking
+
+Arguments and Exceptions
+
+Nested Functions/Closures
+
+Another Example of Closures
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+
+f u n c t i o n Counter ( i n i t i a l ) {
+var val = i n i t i a l ;
+return {
+i n c r e m e n t : f u n c t i o n ( ) { v a l += 1 ; } ,
+reset : function () { val = i n i t i a l ; } ,
+get : function () { return val ; }
+}
+};
+var f = Counter (5) , g = Counter (10) ;
+f . increment () ;
+f . r e s e t () ; f . increment () ;
+g . increment () ; g . increment () ;
+console . log ( f . get () + " , " + g . get () ) ;
+
+Higher-Order Functions/Currying
+
+31
+
+Functions in JS
+
+Invoking
+
+Arguments and Exceptions
+
+Nested Functions/Closures
+
+Higher-Order Functions/Currying
+
+Why closures are useful ?
+
+Allow you to remember state in Web Applications
+Especially when you have many different handlers construct
+parts of an object (e.g., AJAX messages)
+Very useful for callbacks in JavaScript: return the callback
+function from the parent function
+Way to emulate private variables (JS has none)
+
+Closures are extensively used in frameworks such as jQuery to
+protect the integrity of internal state
+
+32
+
+Functions in JS
+
+Invoking
+
+Arguments and Exceptions
+
+Nested Functions/Closures
+
+Higher-Order Functions/Currying
+
+Closures: Referencing Parent Object
+
+In a closure, what does this refer to ?
+The nested function scope
+
+But what if you wanted to access the parent function’s
+context (e.g., to invoke a method) ?
+You no longer get access to parent’s this
+Store the parent context in a local variable that
+
+Caution: Can lead to high memory consumption
+
+33
+
+Functions in JS
+
+Invoking
+
+Arguments and Exceptions
+
+Nested Functions/Closures
+
+Higher-Order Functions/Currying
+
+Referencing Parent Object with that: Example
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+
+var MultiCounter = {
+create : function ( i n i t i a l ) {
+var that = t h i s ;
+var val = [ ] ;
+console . log ( this ) ;
+this . i n i t = function () {
+val = [ ] ;
+f o r ( v a r i =0; i < i n i t i a l . l e n g t h ; i ++) {
+v a l . pu sh (
+initial [ i ] );
+};
+};
+this . i n i t () ;
+return {
+i n c r e m e n t : f u n c t i o n ( i ) { v a l [ i ] += 1 ; } ,
+r e s e t A l l : function () { that . i n i t () ; } ,
+getValues : function () { return val ; }
+};
+
+}
+};
+var m = MultiCounter . create ( [1 , 2 , 3] ) ;
+
+34
+
+Functions in JS
+
+Invoking
+
+Arguments and Exceptions
+
+Nested Functions/Closures
+
+Higher-Order Functions/Currying
+
+Class Activity- 1
+1
+
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+
+/* 1) Assume that you want to maintain an array of Counter
+closures ( see Slide 33) , each starting from a different
+number 1 , 2 , 3 etc . Why would the following code not
+work . Explain why not . */
+v a r MakeCoun ters = f u n c t i o n ( n ) {
+var counters = [ ] ;
+f o r ( v a r i =0; i <n ; i ++) {
+var val = i ;
+counters [ i ] = {
+i n c r e m e n t : f u n c t i o n ( ) { v a l ++; } ,
+get : function () { return val ; } ,
+reset : function () { val = i ; }
+}
+}
+return counters ;
+}
+v a r m = MakeCoun ters ( 1 0 ) ;
+f o r ( v a r i =0; i <10; i ++) {
+document . w r i t e l n ( " Counter [ " + i + " ] = " + m[ i ] . g e t ( ) ) ;
+}
+
+35
+
+Functions in JS
+
+Invoking
+
+Arguments and Exceptions
+
+Nested Functions/Closures
+
+Higher-Order Functions/Currying
+
+Class Activity- 2
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+
+/* 2) How would you change the code to maintain an array of
+counters the right way ( with distinct values from 1 to n
+) ? ( same code below ) */
+v a r MakeCoun ters = f u n c t i o n ( n ) {
+var counters = [ ] ;
+f o r ( v a r i =0; i <n ; i ++) {
+var val = i ;
+counters [ i ] = {
+i n c r e m e n t : f u n c t i o n ( ) { v a l ++; } ,
+get : function () { return val ; } ,
+reset : function () { val = i ; }
+}
+}
+return counters ;
+}
+v a r m = MakeCoun ters ( 1 0 ) ;
+f o r ( v a r i =0; i <10; i ++) {
+document . w r i t e l n ( " Counter [ " + i + " ] = " + m[ i ] . g e t ( ) ) ;
+}
+
+36
+
+Functions in JS
+
+Invoking
+
+Arguments and Exceptions
+
+Nested Functions/Closures
+
+Higher-Order Functions/Currying
+
+Gotchas with Closures
+
+Remember, the closure stores a link to the variables of the
+original function, not a copy
+Any changes to the enclosing variable are reflected in the
+closure, even after it was created
+
+Keep the amount of state you want to save in the closure to
+the minimum necessary state
+Otherwise, garbage collector cannot release it and you will get
+memory leaks, and run out of memory
+
+37
+
+Functions in JS
+
+Invoking
+
+Arguments and Exceptions
+
+Nested Functions/Closures
+
+Higher-Order Functions and Currying
+
+1
+
+Functions in JavaScript: Creation
+
+2
+
+Invoking a Function
+
+3
+
+Arguments and Exceptions
+
+4
+
+Nested Functions and Closures
+
+5
+
+Higher-Order Functions and Currying
+
+Higher-Order Functions/Currying
+
+38
+
+Functions in JS
+
+Invoking
+
+Arguments and Exceptions
+
+Nested Functions/Closures
+
+Higher-Order Functions/Currying
+
+High-Order Functions
+
+Passing functions as arguments to other functions to perform
+some task
+No need to wrap the function in some weird object as C++ or
+Java require
+Function can take any arguments – use apply as seen previously
+
+This is very useful for creating generic objects that have
+‘plug-and-play’ functionality
+Can also return functions in JS, as we’ve just seen
+
+39
+
+Functions in JS
+
+Invoking
+
+Arguments and Exceptions
+
+Nested Functions/Closures
+
+Higher-Order Functions/Currying
+
+Higher Order Function: Example - 1
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+
+v a r map = f u n c t i o n ( a r r a y , f n ) {
+// Applies fn to each element of list , returns a new list
+var r e s u l t = [ ] ;
+f o r ( v a r i = 0 ; i < a r r a y . l e n g t h ; i ++) {
+var element = array [ i ] ;
+r e s u l t . pu sh ( f n ( e l e m e n t ) ) ;
+}
+return r e s u l t ;
+}
+map ( [ 3 , 1 , 5 , 7 , 2 ] , f u n c t i o n ( num ) { r e t u r n num + 1 0 ; } ) ;
+
+40
+
+Functions in JS
+
+Invoking
+
+Arguments and Exceptions
+
+Nested Functions/Closures
+
+Higher-Order Functions/Currying
+
+Currying
+
+41
+
+Currying: binding some arguments of a function, so that only
+the remaining arguments need to be filled in
+Use function.bind to bind some arguments
+
+Very useful when used in combination with higher-order
+functions for specifying arguments of functions being passed in
+Example of using bind
+Assume that you have a function called foo that takes two
+arguments
+function foo(a, b ) { . . . }
+
+You can bind the first argument to a constant value (or
+anything else) to return a function goo that takes a single
+argument as follows.
+var goo = foo.bind( null, <value> );
+null specifies the calling context to bind to
+
+Functions in JS
+
+Invoking
+
+Arguments and Exceptions
+
+Nested Functions/Closures
+
+Higher-Order Functions/Currying
+
+Using currying
+
+Now you can pass the bound function to the map higher-order
+function we defined earlier.
+1
+2
+3
+4
+5
+
+f u n c t i o n add ( a , b ) { r e t u r n a + b ; }
+v a r add10 = add . b i n d ( n u l l , 1 0 ) ;
+// add10 takes a single argument and adds 10 to
+// it as the other argument is bound to the value 10
+map ( [ 1 , 3 , 5 , 2 , 1 0 , 1 1 ] , add10 ) ;
+
+42
+
+Functions in JS
+
+Invoking
+
+Summary
+
+Arguments and Exceptions
+
+Nested Functions/Closures
+
+Higher-Order Functions/Currying
+
+43
+
+Functions in JS
+
+Invoking
+
+Arguments and Exceptions
+
+Nested Functions/Closures
+
+1
+
+Functions in JavaScript: Creation
+
+2
+
+Invoking a Function
+
+3
+
+Arguments and Exceptions
+
+4
+
+Nested Functions and Closures
+
+5
+
+Higher-Order Functions and Currying
+
+Higher-Order Functions/Currying
+
+Functions in JS
+
+Invoking
+
+Arguments and Exceptions
+
+Nested Functions/Closures
+
+Higher-Order Functions/Currying
+
+Class Activity - 1
+Class Activity - 1
+Write an implementation of filter using JavaScript. filter takes
+2 parameters, an array arr and a function f that takes a single
+parameter and returns true or false. It then creates another
+array with only the elements in arr for which f returns true.
+Class Activity - 2
+Consider a function lesserThan that compares two numbers
+and returns true if the first number is smaller than the second
+number. Create a curried version of this function to pass to
+the filter function with the first argument set to a
+user-specified threshold.
+What’s the effect of the filter operation here ?
+
+44
+
+
