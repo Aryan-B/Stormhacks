@@ -8,7 +8,7 @@ import { ChakraBaseProvider, extendBaseTheme } from '@chakra-ui/react'
 import chakraTheme from '@chakra-ui/theme'
 
 import UploadPage from './componenets/UploadPage'
-import QuesPage from './componenets/QuesPage'
+import Forms from './componenets/Forms'
 import SummaryPage from './componenets/summaryPage'
 import LandingPage from './componenets/LandingPage'
 
@@ -21,8 +21,7 @@ function App() {
         <div>
           <LandingPage/>
           <UploadPage/>
-          <SummaryPage />
-          <QuesPage />
+          <Forms />
         </div>
       </ChakraBaseProvider>
     </>
