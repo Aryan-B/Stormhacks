@@ -82,8 +82,8 @@ const Forms = (props) => {
       <h2 className="text-4xl font-bold text-white text-shadow">Set Topics</h2>
       <FileUploadContainer>
         <FormControl isRequired>
-          <div className="flex">
-            <div className="w-1/2 mx-10">
+            <div class="grid grid-cols-2 gap-4">
+            <div>
               <FormLabel>Topics detected:</FormLabel>
               <CheckboxGroup colorScheme="purple">
                 <Stack
@@ -96,7 +96,7 @@ const Forms = (props) => {
                 </Stack>
               </CheckboxGroup>
             </div>
-            <div className="w-1/2 mx-10">
+            <div >
               <Stack direction={["column"]} maxHeight={60} className="flex">
                 <div>
                   <FormLabel>Set Difficulty Level:</FormLabel>
