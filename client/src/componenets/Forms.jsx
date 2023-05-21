@@ -3,7 +3,22 @@ import { Checkbox, CheckboxGroup, FormControl, FormLabel, Stack, Radio, RadioGro
     NumberInputField,
     NumberInputStepper,
     NumberIncrementStepper,
-    NumberDecrementStepper, Box} from '@chakra-ui/react'
+    NumberDecrementStepper, Box
+} from '@chakra-ui/react'
+
+import {
+    FileUploadContainer,
+    FormField,
+    DragDropText,
+    UploadFileBtn,
+    FilePreviewContainer,
+    ImagePreview,
+    PreviewContainer,
+    PreviewList,
+    FileMetaData,
+    RemoveFileIcon,
+    InputLabel,
+} from "./upload.styles";
 
 import './forms.css'
 const Forms = () => {
@@ -13,7 +28,7 @@ const Forms = () => {
   
   
     return (
-        <Box className="m-50 border-solid border-black">
+        <FileUploadContainer>
         <FormControl isRequired >
             <div className="flex">
                 <div className="w-1/2 px-20">
@@ -66,7 +81,7 @@ const Forms = () => {
                 </div>
             </div>
         </FormControl>
-        </Box>
+        </FileUploadContainer>
     )
 };
 
