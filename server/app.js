@@ -5,7 +5,28 @@ const cors = require("cors");
 const Multer = require("multer");
 const { uploadPDFToStorage, parsePDF } = require("./utils/pdfParser");
 const { ContextCreator, generatePracticeQuestion } = require("./utils/chatUtil");
-var multiparty = require('multiparty');
+
+const { MongoClient, ServerApiVersion } = require('mongodb');
+const uri = "mongodb+srv://demo:admin@cluster0.s7t7n.mongodb.net/?retryWrites=true&w=majority";
+const client = new MongoClient(uri, {
+  serverApi: {
+    version: ServerApiVersion.v1,
+    strict: true,
+    deprecationErrors: true,
+  }
+});
+
+async function run() {
+  try {
+    await client.connect();
+    await client.db("admin").command({ ping: 1 });
+    console.log("Pinged your deployment. You successfully connected to MongoDB!");
+  } finally {
+    // await client.close();
+  }
+}
+run().catch(console.dir);
+
 
 const app = express();
 const multer = require('multer');
@@ -24,15 +45,10 @@ const storage = multer.diskStorage({
 // Set up multer middleware with custom storage
 const upload = multer({ storage });
 
-
-
 app.use(cors());
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-
-
-
 
 if (process.env.SERVE_STATIC) {
   app.use(express.static(path.join(__dirname, "../frontend/build")));
@@ -41,20 +57,23 @@ if (process.env.SERVE_STATIC) {
   });
 }
 
-
 // Define API endpoints
 app.post('/api/upload', upload.single('pdfFile'), async (req, res) => {
   const uploadedFile = req.file;
 	//ocr api
-	await uploadPDFToStorage(req.file)
-	const text = await parsePDF(req.file.originalname, "stormhacks-pdf", req.file.originalname);
+	await uploadPDFToStorage(uploadedFile)
+	const text = await parsePDF(uploadedFile.originalname, "stormhacks-pdf", uploadedFile.originalname);
 
   //integrate chatgpt
   const contextJson = await ContextCreator(text);
 
+  console.log(contextJson);
   //Save contextJson to MongoDB
-  
-	res.json({ message: text });
+  const contextCollection = client.db("stormhacks").collection("context");
+  const result = await contextCollection.insertOne({"text": text});
+  console.log(`New listing created with the following id: ${result.insertedId}`);
+
+	res.json({ message: "MongoDB successful complete it" });
 });
 
 
