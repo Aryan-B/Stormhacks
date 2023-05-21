@@ -166,28 +166,16 @@ async function parsePDF(directoryPath, bucketName, fileName) {
   console.log(result);
 }
 
-async function uploadPDFToStorage(bucketName, filePath) {
+async function uploadPDFToStorage(file) {
   const storage = new Storage();
-  const bucket = storage.bucket(bucketName);
+  const bucket = storage.bucket('stormhacks-pdf');
 
   try {
     // Sending the upload request
-    bucket.upload(
-      `./${filePath}`,
-      {
-        destination: `pdf/${filePath}`,
-      },
-      function (err, file) {
-        if (err) {
-          console.error(`Error uploading file: ${err}`);
-        } else {
-          console.log(`${filePath} uploaded to ${bucketName}.`);
-        }
-      }
-    );
+    await bucket.file(`pdf/${file.originalname}`).save(file.buffer);
 
     console.log(
-      `PDF file '${filePath}' uploaded successfully to pdf in bucket '${bucketName}'.`
+      `PDF file '${file.originalname}' uploaded successfully to pdf in bucket stormhacks-pdf'.`
     );
   } catch (error) {
     console.error("Error:", error);
