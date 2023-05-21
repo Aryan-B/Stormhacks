@@ -1,4 +1,5 @@
-import React, { useEffect, useState, useRef } from "react";
+import { useState, useRef } from "react";
+import "../App.css";
 
 import {
   FileUploadContainer,
@@ -11,7 +12,7 @@ import {
   PreviewList,
   FileMetaData,
   RemoveFileIcon,
-  InputLabel
+  InputLabel,
 } from "./upload.styles";
 
 const KILO_BYTES_PER_BYTE = 1000;
@@ -26,14 +27,13 @@ const UploadPage = ({
   maxFileSizeInBytes = DEFAULT_MAX_FILE_SIZE_IN_BYTES,
   ...otherProps
 }) => {
-
   const fileInputField = useRef(null);
   const [files, setFiles] = useState({});
   const [newDocs, setNewDOcs] = useState([]);
 
   const updateUploadedFiles = (files) => {
     setNewDOcs([...newDocs, ...files]);
-  }
+  };
 
   const handleUploadBtnClick = () => {
     fileInputField.current.click();
@@ -74,76 +74,88 @@ const UploadPage = ({
   const handleDocumentSubmit = (event) => {
     event.preventDefault();
 
-    console.log("DOCUMENT SUBMITTED", event)
-
-    //logic to create new user...
+    console.log("DOCUMENT SUBMITTED", event);
   };
 
   return (
-    <div className="upload_page">
-      <h1>Upload Page</h1>
-      <form onSubmit={handleDocumentSubmit}>
-        <FileUploadContainer>
-          <DragDropText>Drag and drop your files anywhere or</DragDropText>
-          <UploadFileBtn type="button" onClick={handleUploadBtnClick}>
-            <i className="fas fa-file-upload" />
-            <span> Upload {otherProps.multiple ? "files" : "a file"}</span>
-          </UploadFileBtn>
-          <FormField
-            type="file"
-            ref={fileInputField}
-            onChange={handleNewFileUpload}
-            title=""
-            value=""
-            {...otherProps}
-          />
+    <div className="min-w-full min-h-screen">
+      <header className="sticky">
+        <nav className="flex flex-row items-center justify-between m-7 font-bold">
+          <h1 className="text-white text-shadow">Q-Genius</h1>
+          <ul className="flex flex-row gap-4 text-[20px] text-white">
+            <li>SEARCH</li>
+            <li>UPLOAD</li>
+            <li>ABOUT</li>
+          </ul>
+        </nav>
+      </header>
 
-          <br />
+      <div className="my-20 mx-12 min-w-[276px] min-h-[536px] flex flex-col text-center">
+        <h2 className="text-4xl font-bold text-white text-shadow">
+          Add Documents
+        </h2>
+        <form onSubmit={handleDocumentSubmit}>
+          <FileUploadContainer>
+            <DragDropText>Drag and drop your files anywhere or</DragDropText>
+            <UploadFileBtn type="button" onClick={handleUploadBtnClick}>
+              <i className="fas fa-file-upload" />
+              <span> Upload {otherProps.multiple ? "files" : "a file"}</span>
+            </UploadFileBtn>
+            <FormField
+              type="file"
+              ref={fileInputField}
+              onChange={handleNewFileUpload}
+              title=""
+              value=""
+              {...otherProps}
+            />
 
-          <FilePreviewContainer>
-            <span>To Upload</span>
-            <PreviewList>
-              {Object.keys(files).map((fileName, index) => {
-                let file = files[fileName];
-                let isImageFile = file.type.split("/")[0] === "image";
-                return (
-                  <PreviewContainer key={fileName}>
-                    <div>
-                      {isImageFile && (
-                        <ImagePreview
-                          src={URL.createObjectURL(file)}
-                          alt={`file preview ${index}`}
-                        />
-                      )}
-                      <FileMetaData isImageFile={isImageFile}>
-                        <span>{file.name}</span>
-                        <aside>
-                          <span>{convertBytesToKB(file.size)} kb</span>
-                          <RemoveFileIcon
-                            className="fas fa-trash-alt"
-                            onClick={() => removeFile(fileName)}
+            {/* <br /> */}
+
+            <FilePreviewContainer>
+              <span>To Upload</span>
+              <PreviewList>
+                {Object.keys(files).map((fileName, index) => {
+                  let file = files[fileName];
+                  let isImageFile = file.type.split("/")[0] === "image";
+                  return (
+                    <PreviewContainer key={fileName}>
+                      <div>
+                        {isImageFile && (
+                          <ImagePreview
+                            src={URL.createObjectURL(file)}
+                            alt={`file preview ${index}`}
                           />
-                        </aside>
-                      </FileMetaData>
-                    </div>
-                  </PreviewContainer>
-                );
-              })}
-            </PreviewList>
-          </FilePreviewContainer>
-        </FileUploadContainer>
-      </form>
-
-      <br />
-      <br />
-      <br />
-
-      
-
-
-
+                        )}
+                        <FileMetaData isImageFile={isImageFile}>
+                          <span>{file.name}</span>
+                          <aside>
+                            <span>{convertBytesToKB(file.size)} kb</span>
+                            <RemoveFileIcon
+                              className="fas fa-trash-alt"
+                              onClick={() => removeFile(fileName)}
+                            />
+                          </aside>
+                        </FileMetaData>
+                      </div>
+                    </PreviewContainer>
+                  );
+                })}
+              </PreviewList>
+            </FilePreviewContainer>
+          </FileUploadContainer>
+          <div className="flex flex-row justify-end mr-12 flex-1/2">
+            <button
+              className="bg-[#8294C4] w-[150px] h-[50px] text-white text-4xl"
+              type="submit"
+            >
+              Next
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
-}
+};
 
 export default UploadPage;
