@@ -11,10 +11,6 @@ import {
 import { SearchIcon, AddIcon } from "@chakra-ui/icons";
 
 import "./forms.css";
-import Card from 'react-bootstrap/Card';
-import Button from 'react-bootstrap/Button';
-
-
 const Topics = (props) => {
   const [formData, setFormData] = useState({
     searchTerm: "",
@@ -41,59 +37,10 @@ const Topics = (props) => {
     });
   };
 
-  const posts = [
-    {
-      topic: "Lorem Ipsum",
-      keywords: ["random", "text", "latin", "literature"],
-      noOfQuestions: 5,
-      difficulty: "easy",
-    },
-    {
-      topic: "Machine Learning",
-      keywords: ["random", "text", "latin", "literature"],
-      noOfQuestions: 20,
-      difficulty: "hard",
-    },        
-    {
-      topic: "Try Catch Loop",
-      keywords: ["error", "exception", "try", "catch"],
-      noOfQuestions: 15,
-      difficulty: "easy",
-    },
-    {
-      topic: "Linear Regression",
-      keywords: ["machine learning", "regression", "linear"],
-      noOfQuestions: 15,
-      difficulty: "easy",
-    }
-]
-
-  const listing = posts.map((item) => {
-    return (
-      <Card key={item.topic} style={{ margin: "10px" }}>
-        <Card.Body>
-          <Card.Title>{item.topic}</Card.Title>
-          <Card.Text>
-            <strong>{item.difficulty}</strong> <br/>
-            {item.noOfQuestions} questions <br/>
-            {item.keywords.map((keyword) => {
-              return (
-                <Tag size="sm" style={{ margin: "2px"}} variant="solid" colorScheme="cyan" key={keyword}>
-                  <TagLabel>{keyword}</TagLabel>
-                </Tag>
-              );
-            })}
-          </Card.Text>
-
-        </Card.Body>
-      </Card>
-    );
-  });
-
   return (
     <div className="flex flex-col text-center h-[100vh]">
-      <div className="flex flex-row mt-[80px]">
-        <div className="w-1/2 mx-20 border-solid border-white border-2">
+      <div className="flex flex-row mt-[125px]">
+        <div className="w-1/2 mx-10 border-solid border-white border-2 mt-28">
           <form action="" className="p-12" size="xl">
             <InputGroup>
               <InputLeftElement pointerEvents="none">
@@ -156,14 +103,7 @@ const Topics = (props) => {
             </div>
           </form>
         </div>
-
-
-        <div className="w-1/2 mx-10 p-4">
-          <div className="box-content">
-            {listing}
-          </div>
-        </div>
-        {/* <div className="w-1/2 mx-10 border-solid border-white border-2 p-6">
+        <div className="w-1/2 mx-10 border-solid border-white border-2 mt-28 p-6">
           <ul className="flex flex-col items-start p-6 list-disc">
             <li className="text-white text-4xl">Distributed Systems</li>
             <li className="text-white text-4xl">Embedded Systems</li>
@@ -173,7 +113,7 @@ const Topics = (props) => {
             <li className="text-white text-4xl">Operating Systems</li>
             <li className="text-white text-4xl">User Interactive Design</li>
           </ul>
-        </div> */}
+        </div>
       </div>
     </div>
   );

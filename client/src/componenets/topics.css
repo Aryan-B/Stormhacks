@@ -1,9 +1,0 @@
-.box-content{
-    overflow-y: scroll;
-    color: black;
-    height: 80vh;
-    columns: 2;
-    column-gap: 10px;
-    display: flex;
-    flex-wrap: wrap;
-  }
