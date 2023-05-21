@@ -6,7 +6,7 @@ const Multer = require("multer");
 const { uploadPDFToStorage, parsePDF } = require("./utils/pdfParser");
 const { ContextCreator, generatePracticeQuestion } = require("./utils/chatUtil");
 
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const uri = "mongodb+srv://demo:admin@cluster0.s7t7n.mongodb.net/?retryWrites=true&w=majority";
 const client = new MongoClient(uri, {
   serverApi: {
@@ -80,18 +80,32 @@ app.post('/api/upload', upload.single('pdfFile'), async (req, res) => {
 
 
 
-app.post('/question', (req, res) => {
+app.post('/question', async (req, res) => {
     // get the id from request
     const id = req.body.id;
-    const topic = req.body.topic;
+    const topic = req.body.topics.join(", ");
     const noOFQuestions = req.body.noOFQues;
     const level = req.body.level;
 
     // generate a question
-    const question = generatePracticeQuestion(id, topic, noOFQuestions, level);
-    return question;
+
+    const contextCollection = client.db("stormhacks").collection("context");
+    let ContextJSON = await contextCollection.findOne({ _id: new ObjectId(id) });
+    let context = ContextJSON[topic];
+
+    const question = generatePracticeQuestion(id, topic, noOFQuestions, level, context);
+    return res.json({ questions: question });
   });
-  
+
+app.get('/api/getTopics/:id', async (req, res) => {
+  const id = req.params.id;
+  console.log(id);
+  const contextCollection = client.db("stormhacks").collection("context");
+  const result = await contextCollection.findOne({ _id: new ObjectId(id) });
+  console.log(result);
+  res.json({ topics: result.topics });
+});
+
 
 // Start the server
 const port = 3000;
@@ -100,3 +114,5 @@ app.listen(port, () => {
 });
 
 module.exports = app;
+
+
