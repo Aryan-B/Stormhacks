@@ -105,22 +105,13 @@ async function parseGoogleVisionAPIResponse(jsonFilePath) {
     const response = JSON.parse(responseJson);
 
     // Extract the text from the response
-    const pages = response.responses[0].fullTextAnnotation.pages;
+    // const pages = response.responses[0].fullTextAnnotation.pages;
+    const responses = response.responses;
     let extractedText = "";
 
-    for (const page of pages) {
-      for (const block of page.blocks) {
-        for (const paragraph of block.paragraphs) {
-          for (const word of paragraph.words) {
-            let wordText = "";
-            for (const symbol of word.symbols) {
-              wordText += symbol.text;
-            }
-            extractedText += wordText + " ";
-          }
-        }
-      }
-    }
+    responses.forEach((response) => {
+        extractedText += response.fullTextAnnotation.text + "\n";
+    });
 
     // Return the extracted text
     return extractedText;
@@ -153,22 +144,22 @@ async function parseMultipleGoogleVisionAPIResponses(directoryPath) {
 }
 
 async function parsePDF(directoryPath, bucketName, fileName) {
-  parsePdfToText(fileName, bucketName, directoryPath);
+  // await parsePdfToText(fileName, bucketName, directoryPath);
 
-  const filenames = await listFiles(bucketName, directoryPath);
-  await downloadJSONFile(bucketName, filenames, directoryPath);
+  // const filenames = await listFiles(bucketName, directoryPath);
+  // await downloadJSONFile(bucketName, filenames, directoryPath);
   const result = await parseMultipleGoogleVisionAPIResponses(
     directoryPath
   ).catch((error) => {
     console.log(error);
   });
 
-  console.log(result);
+  return result;
 }
 
 async function uploadPDFToStorage(file) {
   const storage = new Storage();
-  const bucket = storage.bucket('stormhacks-pdf');
+  const bucket = storage.bucket("stormhacks-pdf");
 
   try {
     // Sending the upload request
@@ -182,5 +173,15 @@ async function uploadPDFToStorage(file) {
   }
 }
 
-parsePDF("output", "stormhacks-pdf", "test.pdf");
-module.exports = {uploadPDFToStorage, parsePDF};
+// async function main() {
+//   const text = await parsePDF("output", "stormhacks-pdf", "01-474-Intro.pdf");
+
+//   fs.writeFile("output.txt", text, (err) => {
+//     if (err) throw err;
+//     console.log("The file has been saved!");
+//   });
+// }
+
+// main();
+
+module.exports = { uploadPDFToStorage, parsePDF };

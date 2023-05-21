@@ -66,3 +66,5 @@ typings/
 # misc
 .DS_Store
 service_account_key.json
+output
+output_large
