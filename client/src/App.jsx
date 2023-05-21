@@ -10,7 +10,7 @@ import chakraTheme from '@chakra-ui/theme'
 import UploadPage from './componenets/UploadPage'
 import QuesPage from './componenets/QuesPage'
 import SummaryPage from './componenets/summaryPage'
-
+import LandingPage from './componenets/LandingPage'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -19,6 +19,7 @@ function App() {
     <>
       <ChakraBaseProvider theme={chakraTheme}>
         <div>
+          <LandingPage/>
           <UploadPage />
           <SummaryPage />
           <QuesPage />
