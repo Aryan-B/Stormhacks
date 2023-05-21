@@ -3,14 +3,18 @@ import Spline from '@splinetool/react-spline';
 
 import './landingPage.css'
 const LandingPage = () => {
-
+    const [show, setShow] = useState(true);
     return (
-    <div className="landingPage">
+    <div className={show ? "landingPage-show" : "landingPage-hide"}>
         <div className="half">
             <div className="head-container">
                 <h1 className="heading-landing">Q-GENIUS</h1>
                 <div className="heading-text">Boost your brainpower with 'Q-Genius': Where your words become a world of practice questions!</div>
-            <button className="button-landing">Get Started</button>
+            <button className="button-landing" onClick={
+                () => {
+                    setShow(false);
+                }
+            }>Get Started</button>
             </div>
         </div>
         <div className="half">

@@ -20,7 +20,7 @@ function App() {
       <ChakraBaseProvider theme={chakraTheme}>
         <div>
           <LandingPage/>
-          <UploadPage />
+          <UploadPage/>
           <SummaryPage />
           <QuesPage />
         </div>
