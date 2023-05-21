@@ -33,25 +33,11 @@ async function parsePdfToText(fileName, bucketName, outputPrefix) {
     ],
   };
 
-  client
-    .asyncBatchAnnotateFiles(request)
-    .then((results) => {
-      const operation = results[0];
-      // Get a Promise representation of the final result of the job
-      operation
-        .promise()
-        .then((filesResponse) => {
-          let destinationUri =
-            filesResponse[0].responses[0].outputConfig.gcsDestination.uri;
-          console.log("Json saved to: " + destinationUri);
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
+  const [operation] = await client.asyncBatchAnnotateFiles(request);
+  const [filesResponse] = await operation.promise();
+  const destinationUri =
+  filesResponse.responses[0].outputConfig.gcsDestination.uri;
+  console.log('Json saved to: ' + destinationUri);
 }
 
 async function listFiles(bucketName, directoryPath) {
@@ -77,20 +63,6 @@ async function listFiles(bucketName, directoryPath) {
     return null;
   }
 }
-
-// listFiles(bucketName, directoryPath)
-//   .then((fileNames) => {
-//     if (fileNames) {
-//       console.log("Files in the bucket:", fileNames);
-//     } else {
-//       console.log("Failed to list files in the bucket.");
-//     }
-//   })
-//   .catch((error) => {
-//     console.error("Error:", error);
-//   });
-
-// Usage example
 
 async function downloadJSONFile(bucketName, fileNames, destinationDir) {
   const storage = new Storage();
@@ -162,7 +134,7 @@ async function parseMultipleGoogleVisionAPIResponses(directoryPath) {
   try {
     const fileNames = fs.readdirSync(directoryPath);
 
-    const parsedResponses = [];
+    let parsedResponses = "";
 
     for (const fileName of fileNames) {
       const filePath = path.join(directoryPath, fileName);
@@ -170,10 +142,7 @@ async function parseMultipleGoogleVisionAPIResponses(directoryPath) {
       // Call the parseGoogleVisionAPIResponse function for each file
       const extractedText = await parseGoogleVisionAPIResponse(filePath);
 
-      parsedResponses.push({
-        fileName: fileName,
-        extractedText: extractedText,
-      });
+      parsedResponses += extractedText;
     }
 
     return parsedResponses;
@@ -183,27 +152,10 @@ async function parseMultipleGoogleVisionAPIResponses(directoryPath) {
   }
 }
 
-// Bucket where the file resides
-// const bucketName = process.argv[2];
-// Path to PDF file within bucket
-// const fileName = process.argv[3];
-
-// parseGoogleVisionAPIResponse(destinationPath)
-//   .then((extractedText) => {
-//     if (extractedText) {
-//       console.log("Extracted text:", extractedText);
-//     } else {
-//       console.log("Failed to parse the JSON response.");
-//     }
-//   })
-//   .catch((error) => {
-//     console.error("Error:", error);
-//   });
-
 async function parsePDF(directoryPath, bucketName, fileName) {
-  // parsePdfToText(fileName, bucketName, directoryPath);
-  const filenames = await listFiles(bucketName, directoryPath);
+  parsePdfToText(fileName, bucketName, directoryPath)
 
+  const filenames = await listFiles(bucketName, directoryPath);
   await downloadJSONFile(bucketName, filenames, directoryPath);
   const result = await parseMultipleGoogleVisionAPIResponses(
     directoryPath
