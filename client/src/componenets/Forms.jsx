@@ -63,9 +63,10 @@ const Forms = (props) => {
       },
     ).then((res) => {
       console.log(res.data);
+      props.setQuestions(res.data.questions);
       props.handleSequence(2);
     });
-    
+
 
   };
 
