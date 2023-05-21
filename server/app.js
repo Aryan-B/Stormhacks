@@ -70,37 +70,30 @@ app.post('/api/upload', upload.single('pdfFile'), async (req, res) => {
   console.log(contextJson);
   //Save contextJson to MongoDB
   const contextCollection = client.db("stormhacks").collection("context");
-  const result = await contextCollection.insertOne({"text": text});
+  const result = await contextCollection.insertOne({"text": text, "context": contextJson, "name": uploadedFile.originalname, topics: Object.keys(contextJson)});
   console.log(`New listing created with the following id: ${result.insertedId}`);
 
-	res.json({ message: "MongoDB successful complete it" });
+	res.json({ message: "MongoDB insertion successful", id: result.insertedId });
 });
 
 
 
 
 
-// app.post('/api/users', (req, res) => {
-  //   // Logic to create a new user
-  //   // Send response with newly created user
-  //   res.json({ user: {...} });
-  // });
+app.post('/question', (req, res) => {
+    // get the id from request
+    const id = req.body.id;
+    const topic = req.body.topic;
+    const noOFQuestions = req.body.noOFQues;
+    const level = req.body.level;
+
+    // generate a question
+    const question = generatePracticeQuestion(id, topic, noOFQuestions, level);
+    return question;
+  });
   
-  // app.put('/api/users/:id', (req, res) => {
-    //   const userId = req.params.id;
-    //   // Logic to update a user with the specified ID
-    //   // Send response with updated user
-    //   res.json({ user: {...} });
-    // });
-    
-    // app.delete('/api/users/:id', (req, res) => {
-      //   const userId = req.params.id;
-      //   // Logic to delete a user with the specified ID
-      //   // Send response with success message
-      //   res.json({ message: 'User deleted successfully' });
-      // });
-      
-      // Start the server
+
+// Start the server
 const port = 3000;
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
