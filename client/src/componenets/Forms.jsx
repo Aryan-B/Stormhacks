@@ -16,17 +16,66 @@ import {
 
 import { FileUploadContainer } from "./upload.styles";
 
+import axios from "axios";
+
 import "./forms.css";
 const Forms = (props) => {
   const [checkedItems, setCheckedItems] = React.useState(false);
   const [value, setValue] = React.useState("1");
   const handleInputChange = (e) => setInput(e.target.value);
 
+  const [checkedList, setCheckedList] = useState([]);
+
+  const [topics, setTopics] = useState([]);
+
+  const [noOfQues, setNoOfQues] = useState(10);
+
+  const pdfId = props.pdfId;
+
+  var comps = topics.map((topic) => {
+    return(
+      <Checkbox
+        key={topic}
+        value={topic}
+        onChange={(e) => {
+          if (e.target.checked) {
+            checkedList.push(e.target.value);
+          } else {
+            checkedList.splice(checkedList.indexOf(e.target.value), 1);
+          }
+        }}
+      >
+        {topic}
+      </Checkbox>
+    )
+  })
+
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    axios.post(
+      `http://localhost:3000/question`,
+      {
+        id: pdfId,
+        topics: checkedList,
+        noOFQues: value,
+        level: value,
+      },
+    ).then((res) => {
+      console.log(res.data);
+      props.handleSequence(2);
+    });
+    
 
-    props.handleSequence(2);
   };
+
+  useEffect(() => {
+    axios.get(`http://localhost:3000/api/getTopics/${pdfId}`).then((res) => {
+      setTopics(res.data.topics);
+    });
+  }, [pdfId]);
+
+
 
   return (
     <div className="flex flex-col text-center">
@@ -43,76 +92,7 @@ const Forms = (props) => {
                   overflow="auto"
                   maxHeight={60}
                 >
-                  <Checkbox
-                    isChecked={checkedItems[0]}
-                    onChange={(e) => setCheckedItems(e.target.checked)}
-                    value="c1"
-                  >
-                    Checkbox1
-                  </Checkbox>
-                  <Checkbox
-                    isChecked={checkedItems[0]}
-                    onChange={(e) => setCheckedItems(e.target.checked)}
-                    value="c2"
-                  >
-                    Checkbox2
-                  </Checkbox>
-                  <Checkbox
-                    isChecked={checkedItems[0]}
-                    onChange={(e) => setCheckedItems(e.target.checked)}
-                    value="c3"
-                  >
-                    Checkbox3
-                  </Checkbox>
-                  <Checkbox
-                    isChecked={checkedItems[0]}
-                    onChange={(e) => setCheckedItems(e.target.checked)}
-                    value="c4"
-                  >
-                    Checkbox4
-                  </Checkbox>
-                  <Checkbox
-                    isChecked={checkedItems[0]}
-                    onChange={(e) => setCheckedItems(e.target.checked)}
-                    value="c5"
-                  >
-                    Checkbox5
-                  </Checkbox>
-                  <Checkbox
-                    isChecked={checkedItems[0]}
-                    onChange={(e) => setCheckedItems(e.target.checked)}
-                    value="c6"
-                  >
-                    Checkbox6
-                  </Checkbox>
-                  <Checkbox
-                    isChecked={checkedItems[0]}
-                    onChange={(e) => setCheckedItems(e.target.checked)}
-                    value="c7"
-                  >
-                    Checkbox7
-                  </Checkbox>
-                  <Checkbox
-                    isChecked={checkedItems[0]}
-                    onChange={(e) => setCheckedItems(e.target.checked)}
-                    value="c5"
-                  >
-                    Checkbox5
-                  </Checkbox>
-                  <Checkbox
-                    isChecked={checkedItems[0]}
-                    onChange={(e) => setCheckedItems(e.target.checked)}
-                    value="c6"
-                  >
-                    Checkbox6
-                  </Checkbox>
-                  <Checkbox
-                    isChecked={checkedItems[0]}
-                    onChange={(e) => setCheckedItems(e.target.checked)}
-                    value="c7"
-                  >
-                    Checkbox7
-                  </Checkbox>
+                  {comps}
                 </Stack>
               </CheckboxGroup>
             </div>
@@ -139,6 +119,10 @@ const Forms = (props) => {
                     min={1}
                     max={50}
                     className="w-24"
+                    onChange={(value) => {
+                      setNoOfQues(value);
+                    }
+                    }
                   >
                     <NumberInputField />
                     <NumberInputStepper>

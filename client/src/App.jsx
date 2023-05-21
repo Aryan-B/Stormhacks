@@ -14,6 +14,7 @@ import Topics from "./componenets/Topics";
 function App() {
   const [show, setShow] = useState(true);
   const [sequence, setSequence] = useState(0);
+  const [pdfId, setPdfId] = useState('');
 
   return (
     <>
@@ -23,8 +24,8 @@ function App() {
           {!show ? (
             <div>
               <Navbar />
-              {sequence === 0 && <UploadPage handleSequence={setSequence}/>}
-              {sequence === 1 && <Forms handleSequence={setSequence}/>}
+              {sequence === 0 && <UploadPage handleSequence={setSequence} handlePdfId={setPdfId}/>}
+              {sequence === 1 && <Forms handleSequence={setSequence} pdfId={pdfId}/>}
               {sequence === 2 && <Topics handleSequence={setSequence}/>}
               {sequence === 3 && <Carousels />}
             </div>

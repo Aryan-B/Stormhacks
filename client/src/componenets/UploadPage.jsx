@@ -1,5 +1,6 @@
 import { useState, useRef } from "react";
 import "../App.css";
+import axios from "axios";
 
 import {
   FileUploadContainer,
@@ -15,7 +16,7 @@ import {
 } from "./upload.styles";
 
 const KILO_BYTES_PER_BYTE = 1000;
-const DEFAULT_MAX_FILE_SIZE_IN_BYTES = 500000;
+const DEFAULT_MAX_FILE_SIZE_IN_BYTES = 5000000;
 
 const convertNestedObjectToArray = (nestedObj) =>
   Object.keys(nestedObj).map((key) => nestedObj[key]);
@@ -72,8 +73,24 @@ const UploadPage = ({
 
   const handleDocumentSubmit = (event) => {
     event.preventDefault();
+    
+    console.log("NEW DOCS", newDocs);
 
-    otherProps.handleSequence(1);    
+    const formData = new FormData();
+    formData.append('pdfFile', newDocs[0]);
+
+    axios.post('http://localhost:3000/api/upload', formData)
+      .then((response) => {
+        console.log('File uploaded successfully');
+        otherProps.handlePdfId(response.data.id)
+        otherProps.handleSequence(1); 
+      })
+      .catch((error) => {
+        console.error('Error uploading file:', error);
+      });
+
+    
+    
     console.log("DOCUMENT SUBMITTED", event);
   };
 
