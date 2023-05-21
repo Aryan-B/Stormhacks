@@ -144,27 +144,28 @@ async function parseMultipleGoogleVisionAPIResponses(directoryPath) {
 }
 
 async function parsePDF(directoryPath, bucketName, fileName) {
-  // await parsePdfToText(fileName, bucketName, directoryPath);
+  await parsePdfToText(fileName, bucketName, directoryPath);
 
-  // const filenames = await listFiles(bucketName, directoryPath);
-  // await downloadJSONFile(bucketName, filenames, directoryPath);
+  const filenames = await listFiles(bucketName, directoryPath);
+  await downloadJSONFile(bucketName, filenames, directoryPath);
   const result = await parseMultipleGoogleVisionAPIResponses(
     directoryPath
   ).catch((error) => {
     console.log(error);
   });
-
   return result;
 }
 
 async function uploadPDFToStorage(file) {
+  console.log(file);
   const storage = new Storage();
   const bucket = storage.bucket("stormhacks-pdf");
 
   try {
     // Sending the upload request
-    await bucket.file(`pdf/${file.originalname}`).save(file.buffer);
-
+    await bucket.upload(`./uploads/${file.filename}`, {
+      destination: `pdf/${file.originalname}`
+    })
     console.log(
       `PDF file '${file.originalname}' uploaded successfully to pdf in bucket stormhacks-pdf'.`
     );
@@ -173,15 +174,5 @@ async function uploadPDFToStorage(file) {
   }
 }
 
-// async function main() {
-//   const text = await parsePDF("output", "stormhacks-pdf", "01-474-Intro.pdf");
-
-//   fs.writeFile("output.txt", text, (err) => {
-//     if (err) throw err;
-//     console.log("The file has been saved!");
-//   });
-// }
-
-// main();
 
 module.exports = { uploadPDFToStorage, parsePDF };
