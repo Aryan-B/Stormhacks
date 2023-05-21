@@ -2,14 +2,16 @@ import styled from "styled-components";
 
 export const FileUploadContainer = styled.section`
   position: relative;
-  margin: 25px 50px 15px;
+  margin: 25px 0 15px;
   border: 2px dotted lightgray;
-  padding: 35px 20px;
+  padding: 35px 35px;
   border-radius: 6px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   background-color: white;
+  height: 50vh;
 `;
 
 export const FormField = styled.input`
