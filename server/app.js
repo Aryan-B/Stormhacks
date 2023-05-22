@@ -115,6 +115,29 @@ app.get('/api/getTopics/:id', async (req, res) => {
 });
 
 
+app.post('/api/setQuestions/', async (req, res) => {
+  const id = req.body.id;
+  const questions = req.body.questions;
+  console.log(id);
+  console.log(questions);
+  const contextCollection = client.db("stormhacks").collection("context");
+  const result = await contextCollection.updateOne({ _id: new ObjectId(id) }, { $set: { questions: questions } });
+  console.log(result);
+  res.json({ message: "Questions added successfully" });
+});
+
+app.get('/api/getQuestions/:id', async (req, res) => {
+  const id = req.params.id;
+  console.log(id);
+  const contextCollection = client.db("stormhacks").collection("context");
+  const result = await contextCollection.findOne({ _id: new ObjectId(id) });
+  console.log(result);
+  res.json({ questions: result.questions });
+});
+
+
+
+
 // Start the server
 const port = 3000;
 app.listen(port, () => {

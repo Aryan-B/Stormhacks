@@ -1,3 +1,3 @@
-const API_KEY = "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";// OPENAI API key
+const API_KEY = "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";// OPENAI API key
 
 module.exports.API_KEY = API_KEY;

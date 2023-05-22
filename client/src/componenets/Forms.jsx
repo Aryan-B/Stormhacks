@@ -62,7 +62,18 @@ const Forms = (props) => {
         level: value,
       },
     ).then((res) => {
-      console.log(res.data);
+      // console.log(res.data);
+      console.log(props)
+      axios.post(
+        `http://localhost:3000/api/setQuestions`,
+        {
+          id: pdfId,
+          questions: res.data,
+        },
+      ).then((res) => {
+        console.log(res.data);
+      });
+      
       props.handleSequence(2);
     });
     

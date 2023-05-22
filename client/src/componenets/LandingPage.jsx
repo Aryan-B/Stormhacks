@@ -7,9 +7,9 @@ const LandingPage = (props) => {
     <div className={props.show ? "landingPage-show" : "landingPage-hide"}>
       <div className="half">
         <div className="head-container">
-          <h1 className="heading-landing">Q-GENIUS</h1>
+          <h1 className="heading-landing">IntelliGEN</h1>
           <div className="heading-text">
-            Boost your brainpower with 'Q-Genius': Where your words become a
+            Boost your brainpower with 'IntelliGEN': Where your words become a
             world of practice questions!
           </div>
           <button
